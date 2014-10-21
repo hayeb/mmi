@@ -39,11 +39,12 @@ public class Window extends JFrame {
 		buttonbar.setLayout(new BoxLayout(buttonbar, BoxLayout.X_AXIS));
 		CreateButtons(drawpanel, buttonbar);
 
-		/* Create the sidebar and make it arrange its components vertically */
-		sidebar.setLayout(new GridBagLayout());
+		/* Create the left sidebar and make it arrange its components vertically */
+		sidebar.setLayout(new BoxLayout(sidebar, BoxLayout.Y_AXIS));
 		ColorButtonPanel cbp = new ColorButtonPanel();
 		cbp.setLayout(new GridBagLayout()) ;
 		sidebar.add(cbp);
+		sidebar.add(new ButtonClass(drawpanel, "Import image.."));
 
 		/*
 		 * Populate the ColorButtonPanel with square buttons which will
