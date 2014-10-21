@@ -38,8 +38,8 @@ public class MouseHandler implements MouseListener {
 
 		int x = e.getX();
 		int y = e.getY();
-		/*System.out.println("Current mode is: " + DrawPanel.mode
-				+ ". Mouse clicked on location: " + x + "," + y); */
+		System.out.println("Current mode is: " + DrawPanel.mode
+				+ ". Mouse clicked on location: " + x + "," + y); 
 		
 		/* Check if mousebutton is not RMB. */
 		if (e.getButton() != 3) {
