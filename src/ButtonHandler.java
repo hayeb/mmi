@@ -3,14 +3,14 @@ import java.awt.event.ActionListener;
 
 public class ButtonHandler implements ActionListener {
 
-	DrawingPanel rect;
+	DrawingPanel drawpanel;
 
 	/**
 	 * The handler acts upon the DrawingPanel.
 	 * @param rp: The DrawingPanel
 	 */
 	public ButtonHandler(DrawingPanel rp) {
-		rect = rp;
+		drawpanel = rp;
 	}
 	
 	public void actionPerformed(ActionEvent e) {
@@ -20,30 +20,30 @@ public class ButtonHandler implements ActionListener {
 		// "Draw", "Draw Rectangle", "Draw ellipse", "Draw line", "Delete", "no mode"
 		switch (cmd) {
 		case "No Mode":
-			this.rect.mode = 0 ;
+			this.drawpanel.mode = 0 ;
 			break ;
 		case "Select":
-			this.rect.mode = 1;
+			this.drawpanel.mode = 1;
 			break ;
 		case "Draw Rectangle":
-			this.rect.mode = 2;
+			this.drawpanel.mode = 2;
 			break ;
 		case "Draw Ellipse":
-			this.rect.mode = 3;
+			this.drawpanel.mode = 3;
 			break ;
 		case "Draw Line":
-			this.rect.mode = 4;
+			this.drawpanel.mode = 4;
 			break;
 		case "Delete":
-			rect.mode = 5 ;
-			rect.deleteSelectedShape() ;
+			drawpanel.mode = 5 ;
+			drawpanel.deleteSelectedShape() ;
 			break;
 		case "Clear":
-			rect.clearAll();
+			drawpanel.clearAll();
 			break;
 		case "Fill":
-			rect.mode = 6;
-			rect.fillSelectedShape();
+			drawpanel.mode = 6;
+			drawpanel.fillSelectedShape();
 			break ;
 		}
 	}

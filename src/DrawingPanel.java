@@ -5,10 +5,16 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class DrawingPanel extends JPanel {
@@ -23,6 +29,7 @@ public class DrawingPanel extends JPanel {
 
 	int width;
 	int height;
+	Window window;
 	int mode = 0; // 0=nomode, 1=select, 2=drawrect, 3=drawellipse, 4=drawline,
 					// 5=delete
 	int selected = -1;
@@ -43,15 +50,16 @@ public class DrawingPanel extends JPanel {
 	 * @param height
 	 *            The height of the panel
 	 */
-	public DrawingPanel(int width, int height) {
+	public DrawingPanel(Window w, int width, int height) {
 		super();
 		this.width = width;
 		this.height = height;
+		this.window = w ;
 		this.addMouseListener(new MouseHandler(this));
 		this.addMouseMotionListener(new MouseMovementHandler(this));
 		
 		Toolkit toolkit = Toolkit.getDefaultToolkit() ;
-		File cursorfile = new File("//Users//haye//projects//MMI//MMI//cursors//defaultdraw.png");
+		File cursorfile = new File("cursors//testcursor.png");
 		Image image = toolkit.getImage(cursorfile.getAbsolutePath());
 		
 		Point hotspot = new Point(0, 0) ;
@@ -135,10 +143,38 @@ public class DrawingPanel extends JPanel {
 		selected = i;
 		repaint();
 	}
+	
+	public void importImage() {
+		final JFileChooser fdialog = new JFileChooser() ;
+		File imagefile = null ;
+		fdialog.setDialogTitle("Choose an image..");
+		int fileval = fdialog.showOpenDialog(window);
+		
+		if (fileval == JFileChooser.APPROVE_OPTION) {
+			imagefile = fdialog.getSelectedFile() ;
+		}
+		else {
+			System.err.println("Opening file cancelled of failed") ;
+		} 
+		
+		BufferedImage myPicture;
+		try {
+			myPicture = ImageIO.read(imagefile);
+			MyImage image = new MyImage(myPicture, 0, 0, myPicture.getWidth(), myPicture.getHeight()) ;
+			shapeslist.add(image);
+			repaint();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.err.println("Failed to load selected file as image") ;
+		}
+		
+		
+	}
 
 	public void saveDXY(int x, int y) {
 		MyShape selectedshape = shapeslist.get(selected);
 		if (selectedshape.contains(x, y)) {
+			System.out.println("This shape indeed contains x, y");
 			switch (selectedshape.orientation) {
 			case 1:
 				dx1 = x - selectedshape.getX1();
@@ -258,6 +294,7 @@ public class DrawingPanel extends JPanel {
 	public void removeSelections() {
 		if (selected >= 0) {
 			shapeslist.get(selected).setNotSelected();
+			selected = -1 ;
 		}
 
 	}
@@ -284,7 +321,7 @@ public class DrawingPanel extends JPanel {
 		boolean notfound = true;
 		for (int i = 0; i < shapeslist.size() && notfound; i += 1) {
 			if (shapeslist.get(i).contains(x, y)) {
-				// System.out.println("Found an object..");
+				System.out.println("Found an object..");
 				// System.out.println("The index of the object is: " + i);
 				// Deselect previous selected objects
 				removeSelections();

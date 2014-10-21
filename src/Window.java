@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Panel;
 
 import javax.swing.BoxLayout;
@@ -14,20 +15,18 @@ public class Window extends JFrame {
 
 		// super() creates a function inherited from JFrame
 		super();
-		// initialize width & height to be used for windows size & internal
+		// initialize width & height to be used for the drawpanel & internal
 		// padding of the canvas
 		int width = 1024;
 		int height = 768;
 
-		super.setTitle("BLABLA TITEL");
+		super.setTitle("MOUSEDRAW: ELITE");
 		super.setSize(new Dimension(width, height));
-
-		// Centre the button on screen
 		super.setLocationRelativeTo(null);
 		super.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		super.getContentPane().setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
-		DrawingPanel drawpanel = new DrawingPanel(width, height);
+		DrawingPanel drawpanel = new DrawingPanel(this, width, height);
 		Panel buttonbar = new Panel();
 		Panel sidebar = new Panel();
 		Panel bottompanel = new Panel();
@@ -40,22 +39,22 @@ public class Window extends JFrame {
 		CreateButtons(drawpanel, buttonbar);
 
 		/* Create the left sidebar and make it arrange its components vertically */
-		sidebar.setLayout(new BoxLayout(sidebar, BoxLayout.Y_AXIS));
+		sidebar.setLayout(new GridLayout(0, 1));
 		ColorButtonPanel cbp = new ColorButtonPanel();
 		cbp.setLayout(new GridBagLayout()) ;
 		sidebar.add(cbp);
-		sidebar.add(new ButtonClass(drawpanel, "Import image.."));
+		sidebar.add(new ImportImageButton(drawpanel, "Import image"));
 
 		/*
 		 * Populate the ColorButtonPanel with square buttons which will
-		 * represent the colors.  TODO: Should work correctly.
+		 * represent the colors.
 		 */
 		CreateColorButtons(drawpanel, cbp);
 
 		/* Set the settings for the Bottom Panel */
 		bottompanel.setLayout(new BorderLayout());
 
-		/* Add the slider to the BottomPane; */
+		/* Add the slider to the BottomPanel */
 		StrokeSlider strokeSlider = new StrokeSlider(drawpanel);
 		strokeSlider.addChangeListener(new StrokeSliderHandler(drawpanel));
 		strokeSlider.setValue(3);
@@ -94,7 +93,8 @@ public class Window extends JFrame {
 		String[] NameList = { "Select", "Draw Rectangle", "Draw Ellipse",
 				"Draw Line", "Fill", "Delete", "Clear" };
 		for (String s : NameList) {
-			ButtonBar.add(new ButtonClass(rp, s));
+			ButtonClass bc = new ButtonClass(rp, s);
+			ButtonBar.add(bc);
 		}
 	}
 
