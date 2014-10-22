@@ -4,11 +4,14 @@
 /ColorButtonHandler.class
 /ColorButtonPanel.class
 /DrawingPanel.class
+/ImportImageButton.class
+/ImportImageButtonHandler.class
 /Main$1.class
 /Main.class
 /MouseHandler.class
 /MouseMovementHandler.class
 /MyEllipse.class
+/MyImage.class
 /MyLine.class
 /MyRectangle.class
 /MyShape.class
@@ -16,6 +19,3 @@
 /StrokeSliderHandler.class
 /Utils.class
 /Window.class
-/MyImage.class
-/ImportImageButton.class
-/ImportImageButtonHandler.class

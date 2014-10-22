@@ -1,5 +1,3 @@
-import java.awt.Panel;
-
 import javax.swing.JButton;
 
 

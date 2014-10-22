@@ -2,7 +2,7 @@ import java.awt.Color;
 
 
 public class Utils {
-
+	/* Utility class. Add any functions that don't belong to another class/object here.*/
 	
 	public static Color StringToColor(String s) {
 		System.out.println(s) ;

@@ -19,12 +19,10 @@ import javax.swing.JPanel;
 
 public class DrawingPanel extends JPanel {
 	/*
-	 * TODO: Implement resizing shapes
-	 * TODO: Implement importing an image 
-	 * TODO: Implement entering and editing text
-	 * TODO: Add move to background function/button (first in list) 
-	 * TODO: Possibly: Draw fixed shapes sizes/angels etc. 
-	 * TODO: Multiselect
+	 * TODO: Implement resizing shapes TODO: Implement importing an image TODO:
+	 * Implement entering and editing text TODO: Add move to background
+	 * function/button (first in list) TODO: Possibly: Draw fixed shapes
+	 * sizes/angels etc. TODO: Multiselect
 	 */
 
 	int width;
@@ -54,16 +52,17 @@ public class DrawingPanel extends JPanel {
 		super();
 		this.width = width;
 		this.height = height;
-		this.window = w ;
+		this.window = w;
 		this.addMouseListener(new MouseHandler(this));
 		this.addMouseMotionListener(new MouseMovementHandler(this));
-		
-		Toolkit toolkit = Toolkit.getDefaultToolkit() ;
+
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		File cursorfile = new File("cursors//testcursor.png");
 		Image image = toolkit.getImage(cursorfile.getAbsolutePath());
-		
-		Point hotspot = new Point(0, 0) ;
-		Cursor cursor = toolkit.createCustomCursor(image, hotspot, "defaultdraw") ;
+
+		Point hotspot = new Point(0, 0);
+		Cursor cursor = toolkit.createCustomCursor(image, hotspot,
+				"defaultdraw");
 		super.setCursor(cursor);
 	}
 
@@ -115,6 +114,9 @@ public class DrawingPanel extends JPanel {
 		repaint();
 	}
 
+	/**
+	 * Fill the selected shape with the currently selected color
+	 */
 	public void fillSelectedShape() {
 		if (selected >= 0) {
 			shapeslist.get(selected).setFillColor(fillcolor);
@@ -143,34 +145,48 @@ public class DrawingPanel extends JPanel {
 		selected = i;
 		repaint();
 	}
-	
+
+	/**
+	 * Shows a file chooser dialog and import an image (Should only be run wen
+	 * the "Import image" button is clicked
+	 */
 	public void importImage() {
-		final JFileChooser fdialog = new JFileChooser() ;
-		File imagefile = null ;
+		final JFileChooser fdialog = new JFileChooser();
+		File imagefile = null;
 		fdialog.setDialogTitle("Choose an image..");
 		int fileval = fdialog.showOpenDialog(window);
-		
+
 		if (fileval == JFileChooser.APPROVE_OPTION) {
-			imagefile = fdialog.getSelectedFile() ;
+			imagefile = fdialog.getSelectedFile();
 		}
 		else {
-			System.err.println("Opening file cancelled of failed") ;
-		} 
-		
+			System.err.println("Opening file cancelled of failed");
+		}
+
 		BufferedImage myPicture;
 		try {
 			myPicture = ImageIO.read(imagefile);
-			MyImage image = new MyImage(myPicture, 0, 0, myPicture.getWidth(), myPicture.getHeight()) ;
+			MyImage image = new MyImage(myPicture, 0, 0, myPicture.getWidth(),
+					myPicture.getHeight());
 			shapeslist.add(image);
 			repaint();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			System.err.println("Failed to load selected file as image") ;
+			System.err.println("Failed to load selected file as image");
 		}
-		
-		
+
 	}
 
+	/**
+	 * Save the current difference between x and x1, x and x2, y and y1, y and
+	 * y2. This code should only be run when a mouse button is pressed inside a
+	 * object. The differences depend on the orientation of the shape.
+	 * 
+	 * @param x
+	 * 			x-coordinate of the mouse
+	 * @param y
+	 * 			y-coordinate of the mouse
+	 */
 	public void saveDXY(int x, int y) {
 		MyShape selectedshape = shapeslist.get(selected);
 		if (selectedshape.contains(x, y)) {
@@ -221,10 +237,17 @@ public class DrawingPanel extends JPanel {
 			}
 		}
 	}
-
+	
+	/**
+	 * Move the currently selected shape according to the position of the mouse.
+	 * @param x
+	 * 			x-coordinate of the mouse
+	 * @param y
+	 * 			y-coordinate of the mouse
+	 */
 	public void moveShape(int x, int y) {
 		MyShape selectedshape = shapeslist.get(selected);
-		//System.out.println("Orientation: " + selectedshape.orientation);
+		// System.out.println("Orientation: " + selectedshape.orientation);
 		if (selectedshape.contains(x, y)) {
 			switch (selectedshape.orientation) {
 			case 1:
@@ -269,7 +292,11 @@ public class DrawingPanel extends JPanel {
 			repaint();
 		}
 	}
-
+	
+	/**
+	 * Sets the fill color to the 
+	 * @param c
+	 */
 	public void setFillColor(Color c) {
 		fillcolor = c;
 	}
@@ -294,7 +321,7 @@ public class DrawingPanel extends JPanel {
 	public void removeSelections() {
 		if (selected >= 0) {
 			shapeslist.get(selected).setNotSelected();
-			selected = -1 ;
+			selected = -1;
 		}
 
 	}

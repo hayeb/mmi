@@ -41,7 +41,7 @@ public class Window extends JFrame {
 		/* Create the left sidebar and make it arrange its components vertically */
 		sidebar.setLayout(new GridLayout(0, 1));
 		ColorButtonPanel cbp = new ColorButtonPanel();
-		cbp.setLayout(new GridBagLayout()) ;
+		cbp.setLayout(new GridBagLayout());
 		sidebar.add(cbp);
 		sidebar.add(new ImportImageButton(drawpanel, "Import image"));
 
@@ -51,18 +51,15 @@ public class Window extends JFrame {
 		 */
 		CreateColorButtons(drawpanel, cbp);
 
-		/* Set the settings for the Bottom Panel */
+		/* Set the settings for the Bottom Panel and add a slider */
 		bottompanel.setLayout(new BorderLayout());
-
-		/* Add the slider to the BottomPanel */
 		StrokeSlider strokeSlider = new StrokeSlider(drawpanel);
 		strokeSlider.addChangeListener(new StrokeSliderHandler(drawpanel));
 		strokeSlider.setValue(3);
-		strokeSlider.setMaximum(100) ;
-		strokeSlider.setMinimum(1) ;
+		strokeSlider.setMaximum(100);
+		strokeSlider.setMinimum(1);
 		bottompanel.add(strokeSlider);
 
-		// TODO: Adjust border width/size
 		c.gridx = 1;
 		c.gridy = 0;
 		super.getContentPane().add(buttonbar, c);
@@ -75,7 +72,7 @@ public class Window extends JFrame {
 		super.getContentPane().add(rightpanel, c);
 		c.gridx = 1;
 		c.gridy = 2;
-		c.fill = GridBagConstraints.HORIZONTAL ;
+		c.fill = GridBagConstraints.HORIZONTAL;
 		super.getContentPane().add(bottompanel, c);
 		c.gridx = 1;
 		c.gridy = 1;
@@ -89,6 +86,15 @@ public class Window extends JFrame {
 		super.setVisible(true);
 	}
 
+	/**
+	 * Creates a set of buttons with corresponding commands which change the
+	 * selected mode of the drawingpanel
+	 * 
+	 * @param rp
+	 *            Drawingpanel of which the selected color is changed
+	 * @param ButtonBar
+	 *            Panel which contains the buttons
+	 */
 	private void CreateButtons(DrawingPanel rp, Panel ButtonBar) {
 		String[] NameList = { "Select", "Draw Rectangle", "Draw Ellipse",
 				"Draw Line", "Fill", "Delete", "Clear" };
@@ -98,32 +104,43 @@ public class Window extends JFrame {
 		}
 	}
 
+	/**
+	 * Creates a set of buttons in panel cp, which have a corresponding color
+	 * and change the selected color in dp.
+	 * 
+	 * @param dp
+	 * 			DrawingPanel of which selected color is changed
+	 * @param cp
+	 * 			Panel which contains the buttons
+	 */
 	private void CreateColorButtons(DrawingPanel dp, ColorButtonPanel cp) {
-		Color[] colorlist = {Color.BLACK, Color.WHITE, Color.BLUE, Color.YELLOW, Color.GRAY, Color.RED, Color.CYAN};
-		String[] namelist = {"Black", "White", "Blue", "Yellow", "Gray", "Red", "Cyan"} ;
+		Color[] colorlist = { Color.BLACK, Color.WHITE, Color.BLUE,
+				Color.YELLOW, Color.GRAY, Color.RED, Color.CYAN };
+		String[] namelist = { "Black", "White", "Blue", "Yellow", "Gray",
+				"Red", "Cyan" };
 		int x = 0;
-		int y = 0 ;
-		
-		for (int i = 0 ; i < colorlist.length; i += 1) {
-			GridBagConstraints gbc = new GridBagConstraints() ;
-			Color c = colorlist[i] ;
-			gbc.gridx = x ;
-			gbc.gridy = y ;
+		int y = 0;
+
+		for (int i = 0; i < colorlist.length; i += 1) {
+			GridBagConstraints gbc = new GridBagConstraints();
+			Color c = colorlist[i];
+			gbc.gridx = x;
+			gbc.gridy = y;
 			gbc.ipadx = 40;
-			gbc.ipady = 40 ;
-			ColorButton cb = new ColorButton(dp, c) ;
+			gbc.ipady = 40;
+			ColorButton cb = new ColorButton(dp, c);
 			cb.setActionCommand(namelist[i]);
 			cb.setBackground(c);
 			cb.setOpaque(true);
 			cb.setPreferredSize(new Dimension(40, 40));
-			cp.add(cb, gbc) ;
-		
+			cp.add(cb, gbc);
+
 			if (x >= 1) {
-				x = 0 ;
-				y += 1 ;
+				x = 0;
+				y += 1;
 			}
 			else {
-				x += 1 ;
+				x += 1;
 			}
 		}
 	}
