@@ -17,6 +17,8 @@ public class MouseMovementHandler implements MouseMotionListener {
 
 		int x2 = e.getX();
 		int y2 = e.getY();
+		DrawPanel.mousex = x2 - 16;
+		DrawPanel.mousey = y2 - 11;
 		if (SwingUtilities.isLeftMouseButton(e)) {
 			switch (DrawPanel.mode) {
 			case 1:
@@ -36,11 +38,17 @@ public class MouseMovementHandler implements MouseMotionListener {
 				break;
 			}
 		}
+		DrawPanel.repaint() ;
 
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
+		int x = e.getX();
+		int y = e.getY();
+		DrawPanel.mousex = x - 16 ;
+		DrawPanel.mousey = y - 11 ;
+		DrawPanel.repaint() ;
 	}
 
 }

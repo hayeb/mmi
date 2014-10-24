@@ -19,7 +19,6 @@ public class Window extends JFrame {
 		// padding of the canvas
 		int width = 1024;
 		int height = 768;
-
 		super.setTitle("Awesome Software of Awesomeness");
 		super.setSize(new Dimension(width, height));
 		super.setLocationRelativeTo(null);

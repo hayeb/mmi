@@ -9,12 +9,11 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class DrawingPanel extends JPanel {
@@ -30,6 +29,12 @@ public class DrawingPanel extends JPanel {
 	Window window;
 	int mode = 0; // 0=nomode, 1=select, 2=drawrect, 3=drawellipse, 4=drawline,
 					// 5=delete
+	public int mousex = 0;
+	public int mousey = 0;
+	File[] list ;
+	Image cursorimages[] = {};
+	
+	Image cursorimage = null ;
 	int selected = -1;
 	int selectedstroke = 3;
 
@@ -58,13 +63,25 @@ public class DrawingPanel extends JPanel {
 		this.addMouseWheelListener(new MouseWheelHandler(this));
 
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
-		File cursorfile = new File("cursors//testcursor.png");
-		Image image = toolkit.getImage(cursorfile.getAbsolutePath());
-
+		File cursorfile = new File("cursors//tranparent_cursor.png");
+		cursorimage = toolkit.getImage(cursorfile.getAbsolutePath());
+		
 		Point hotspot = new Point(0, 0);
-		Cursor cursor = toolkit.createCustomCursor(image, hotspot,
+		Cursor cursor = toolkit.createCustomCursor(cursorimage, hotspot,
 				"defaultdraw");
-		super.setCursor(cursor);
+		setCursor(cursor);
+		
+		// Set image to the default cursor image
+		FillCursorImageList() ;
+	}
+	
+	public void FillCursorImageList() {
+		Toolkit toolkit = Toolkit.getDefaultToolkit() ;
+		
+		File f = new File("cursors\\");
+		list = f.listFiles();
+		
+		cursorimage = toolkit.getImage(list[4].getAbsolutePath()) ;
 	}
 
 	/**
@@ -116,6 +133,10 @@ public class DrawingPanel extends JPanel {
 		line.resetOrientation();
 		shapeslist.add(line);
 		repaint();
+	}
+	
+	public void drawCursorImage(int x, int y) {
+		
 	}
 
 	/**
@@ -404,11 +425,13 @@ public class DrawingPanel extends JPanel {
 		super.paintComponent(g);
 
 		Graphics2D g2d = (Graphics2D) g;
-
+		
 		for (MyShape s : shapeslist) {
 			s.draw(g2d);
 
 		}
+		// Draw the cursor
+		g2d.drawImage(cursorimage, mousex, mousey, null);
 	}
 
 	/**
