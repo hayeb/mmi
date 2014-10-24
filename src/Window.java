@@ -51,15 +51,6 @@ public class Window extends JFrame {
 		 */
 		CreateColorButtons(drawpanel, cbp);
 
-		/* Set the settings for the Bottom Panel and add a slider */
-		bottompanel.setLayout(new BorderLayout());
-		StrokeSlider strokeSlider = new StrokeSlider(drawpanel);
-		strokeSlider.addChangeListener(new StrokeSliderHandler(drawpanel));
-		strokeSlider.setValue(3);
-		strokeSlider.setMaximum(100);
-		strokeSlider.setMinimum(1);
-		bottompanel.add(strokeSlider);
-
 		c.gridx = 1;
 		c.gridy = 0;
 		super.getContentPane().add(buttonbar, c);
@@ -109,9 +100,9 @@ public class Window extends JFrame {
 	 * and change the selected color in dp.
 	 * 
 	 * @param dp
-	 * 			DrawingPanel of which selected color is changed
+	 *            DrawingPanel of which selected color is changed
 	 * @param cp
-	 * 			Panel which contains the buttons
+	 *            Panel which contains the buttons
 	 */
 	private void CreateColorButtons(DrawingPanel dp, ColorButtonPanel cp) {
 		Color[] colorlist = { Color.BLACK, Color.WHITE, Color.BLUE,
@@ -138,8 +129,7 @@ public class Window extends JFrame {
 			if (x >= 1) {
 				x = 0;
 				y += 1;
-			}
-			else {
+			} else {
 				x += 1;
 			}
 		}

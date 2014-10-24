@@ -1,11 +1,11 @@
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class MouseHandler implements MouseListener {
+public class MouseButtonHandler implements MouseListener {
 
 	DrawingPanel DrawPanel;
 
-	public MouseHandler(DrawingPanel dp) {
+	public MouseButtonHandler(DrawingPanel dp) {
 		DrawPanel = dp;
 	}
 

@@ -53,8 +53,9 @@ public class DrawingPanel extends JPanel {
 		this.width = width;
 		this.height = height;
 		this.window = w;
-		this.addMouseListener(new MouseHandler(this));
+		this.addMouseListener(new MouseButtonHandler(this));
 		this.addMouseMotionListener(new MouseMovementHandler(this));
+		this.addMouseWheelListener(new MouseWheelHandler(this));
 
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		File cursorfile = new File("cursors//testcursor.png");
@@ -78,6 +79,7 @@ public class DrawingPanel extends JPanel {
 		MyRectangle rectangle = new MyRectangle(x, y, x, y);
 		rectangle.setStroke(selectedstroke);
 		rectangle.setColor(linecolor);
+		rectangle.resetOrientation();
 		shapeslist.add(rectangle);
 		repaint();
 	}
@@ -94,6 +96,7 @@ public class DrawingPanel extends JPanel {
 		MyEllipse ellipse = new MyEllipse(x, y, x, y);
 		ellipse.setStroke(selectedstroke);
 		ellipse.setColor(linecolor);
+		ellipse.resetOrientation();
 		shapeslist.add(ellipse);
 		repaint();
 	}
@@ -110,6 +113,7 @@ public class DrawingPanel extends JPanel {
 		MyLine line = new MyLine(x, y, x, y);
 		line.setStroke(selectedstroke);
 		line.setColor(linecolor);
+		line.resetOrientation();
 		shapeslist.add(line);
 		repaint();
 	}
@@ -287,14 +291,14 @@ public class DrawingPanel extends JPanel {
 	 * strokesize
 	 */
 	public void strokeTool() {
-		if (selected >= 0) {
+		if (selected >= 0 && selectedstroke > 0 && selectedstroke <= 100 ) {
 			shapeslist.get(selected).setStroke(selectedstroke);
 			repaint();
 		}
 	}
 	
 	/**
-	 * Sets the fill color to the 
+	 * Sets the fill color to the color c.
 	 * @param c
 	 */
 	public void setFillColor(Color c) {
