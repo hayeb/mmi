@@ -90,7 +90,7 @@ public class Window extends JFrame {
 		String[] NameList = { "Select", "Draw Rectangle", "Draw Ellipse",
 				"Draw Line", "Fill", "Delete", "Clear" };
 		for (String s : NameList) {
-			ButtonClass bc = new ButtonClass(rp, s);
+			ButtonPanel bc = new ButtonPanel(rp, s);
 			ButtonBar.add(bc);
 		}
 	}
