@@ -20,7 +20,7 @@ public class Window extends JFrame {
 		int width = 1024;
 		int height = 768;
 
-		super.setTitle("MOUSEDRAW: ELITE");
+		super.setTitle("Awesome Software of Awesomeness");
 		super.setSize(new Dimension(width, height));
 		super.setLocationRelativeTo(null);
 		super.setDefaultCloseOperation(EXIT_ON_CLOSE);
