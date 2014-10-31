@@ -9,16 +9,17 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class DrawingPanel extends JPanel {
 	/*
-	 * TODO: Implement resizing shapes TODO: Implement importing an image TODO:
+	 * TODO: Implement resizing shapes TODO:
 	 * Implement entering and editing text TODO: Add move to background
 	 * function/button (first in list) TODO: Possibly: Draw fixed shapes
 	 * sizes/angels etc. TODO: Multiselect
@@ -177,6 +178,12 @@ public class DrawingPanel extends JPanel {
 	 */
 	public void importImage() {
 		final JFileChooser fdialog = new JFileChooser();
+		
+		FileFilter imageFilter = new FileNameExtensionFilter(
+			    "Image files", ImageIO.getReaderFileSuffixes());
+		fdialog.addChoosableFileFilter(imageFilter);
+		fdialog.setAcceptAllFileFilterUsed(false);
+		
 		File imagefile = null;
 		fdialog.setDialogTitle("Choose an image..");
 		int fileval = fdialog.showOpenDialog(window);

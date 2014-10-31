@@ -42,7 +42,6 @@ public class Window extends JFrame {
 		ColorButtonPanel cbp = new ColorButtonPanel();
 		cbp.setLayout(new GridBagLayout());
 		sidebar.add(cbp);
-		sidebar.add(new ImportImageButton(drawpanel, "Import image"));
 
 		/*
 		 * Populate the ColorButtonPanel with square buttons which will
@@ -80,16 +79,17 @@ public class Window extends JFrame {
 	 * Creates a set of buttons with corresponding commands which change the
 	 * selected mode of the drawingpanel
 	 * 
-	 * @param rp
+	 * @param drawpanel
 	 *            Drawingpanel of which the selected color is changed
 	 * @param ButtonBar
 	 *            Panel which contains the buttons
 	 */
-	private void CreateButtons(DrawingPanel rp, Panel ButtonBar) {
-		String[] NameList = { "Select", "Draw Rectangle", "Draw Ellipse",
-				"Draw Line", "Fill", "Delete", "Clear" };
+	private void CreateButtons(DrawingPanel drawpanel, Panel ButtonBar) {
+		String[] NameList = { "Draw Rectangle", "Draw Ellipse", "Draw Line",
+				"Fill", "Delete", "Clear" };
+		ButtonBar.add(new ImportImageButton(drawpanel, "Import image"));
 		for (String s : NameList) {
-			ButtonPanel bc = new ButtonPanel(rp, s);
+			ButtonPanel bc = new ButtonPanel(drawpanel, s);
 			ButtonBar.add(bc);
 		}
 	}
@@ -104,10 +104,13 @@ public class Window extends JFrame {
 	 *            Panel which contains the buttons
 	 */
 	private void CreateColorButtons(DrawingPanel dp, ColorButtonPanel cp) {
-		Color[] colorlist = { Color.BLACK, Color.WHITE, Color.BLUE,
-				Color.YELLOW, Color.GRAY, Color.RED, Color.CYAN };
-		String[] namelist = { "Black", "White", "Blue", "Yellow", "Gray",
-				"Red", "Cyan" };
+		Color[] colorlist = { Color.BLACK, Color.DARK_GRAY, Color.GRAY,
+				Color.LIGHT_GRAY, Color.WHITE, Color.PINK, Color.RED,
+				Color.ORANGE, Color.YELLOW, Color.GREEN, Color.CYAN,
+				Color.BLUE, Color.MAGENTA };
+		String[] namelist = { "Black", "Dark Gray", "Gray", "Light Grey",
+				"White", "Pink", "Red", "Orange", "Yellow", "Green", "Cyan",
+				"Blue", "Magenta" };
 		int x = 0;
 		int y = 0;
 
