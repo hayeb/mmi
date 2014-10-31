@@ -25,6 +25,9 @@ public class MouseMovementHandler implements MouseMotionListener {
 				// Move the currently selected object
 				if (DrawPanel.selected >= 0) {
 					DrawPanel.moveShape(x2, y2);
+					if (DrawPanel.getSelected().inSelected(e.getX(), e.getY())) {
+						
+					}
 				}
 				break;
 			case 2:

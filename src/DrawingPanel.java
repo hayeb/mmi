@@ -171,6 +171,12 @@ public class DrawingPanel extends JPanel {
 		selected = i;
 		repaint();
 	}
+	
+	public MyShape getSelected() {
+		return shapeslist.get(selected);
+	}
+	
+	
 
 	/**
 	 * Shows a file chooser dialog and import an image (Should only be run wen
@@ -220,7 +226,7 @@ public class DrawingPanel extends JPanel {
 	 * 			y-coordinate of the mouse
 	 */
 	public void saveDXY(int x, int y) {
-		MyShape selectedshape = shapeslist.get(selected);
+		MyShape selectedshape = getSelected();
 		if (selectedshape.contains(x, y)) {
 			System.out.println("This shape indeed contains x, y");
 			switch (selectedshape.orientation) {

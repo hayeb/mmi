@@ -147,6 +147,27 @@ public abstract class MyShape {
 			System.err.print("There's something wrong with the orientation!");
 		}
 	}
+	
+	public boolean inSelected(int x, int y){
+		
+		switch (orientation) {
+		case 1:
+			
+			break ;
+		case 2:
+			
+			break;
+		case 3:
+			
+			break;
+		case 4:
+			
+			break;
+		default:
+			System.err.println("There is an error in iSelected");
+		}
+		return false ;
+	}
 
 	public void setStroke(int t) {
 		stroke = new BasicStroke(t);
