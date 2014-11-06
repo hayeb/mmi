@@ -108,7 +108,7 @@ public class Window extends JFrame {
 				Color.LIGHT_GRAY, Color.WHITE, Color.PINK, Color.RED,
 				Color.ORANGE, Color.YELLOW, Color.GREEN, Color.CYAN,
 				Color.BLUE, Color.MAGENTA };
-		String[] namelist = { "Black", "Dark Gray", "Gray", "Light Grey",
+		String[] namelist = { "Black", "Dark Gray", "Gray", "Light Gray",
 				"White", "Pink", "Red", "Orange", "Yellow", "Green", "Cyan",
 				"Blue", "Magenta" };
 		int x = 0;

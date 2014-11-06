@@ -7,7 +7,6 @@ public class ColorButtonHandler implements ActionListener {
 	DrawingPanel drawpanel;
 	
 	public ColorButtonHandler(DrawingPanel dp) {
-		//System.out.print("ColorButtonHandler initialised..") ;
 		drawpanel = dp ;
 	}
 	
