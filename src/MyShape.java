@@ -164,7 +164,7 @@ public abstract class MyShape {
 			
 			break;
 		default:
-			System.err.println("There is an error in iSelected");
+			System.err.println("There is an error in inSelected");
 		}
 		return false ;
 	}

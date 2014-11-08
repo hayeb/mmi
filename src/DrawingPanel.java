@@ -19,10 +19,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class DrawingPanel extends JPanel {
 	/*
-	 * TODO: Implement resizing shapes TODO:
-	 * Implement entering and editing text TODO: Add move to background
-	 * function/button (first in list) TODO: Possibly: Draw fixed shapes
-	 * sizes/angels etc. TODO: Multiselect
+	 * TODO: Implement resizing shapes TODO: Implement entering and editing text
+	 * TODO: Add move to background function/button (first in list) TODO:
+	 * Possibly: Draw fixed shapes sizes/angels etc. TODO: Multiselect
 	 */
 
 	int width;
@@ -32,10 +31,10 @@ public class DrawingPanel extends JPanel {
 					// 5=delete
 	public int mousex = 0;
 	public int mousey = 0;
-	File[] list ;
+	File[] list;
 	Image cursorimages[] = {};
-	
-	Image cursorimage = null ;
+
+	Image cursorimage = null;
 	int selected = -1;
 	int selectedstroke = 3;
 
@@ -66,23 +65,23 @@ public class DrawingPanel extends JPanel {
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		File cursorfile = new File("cursors//tranparent_cursor.png");
 		cursorimage = toolkit.getImage(cursorfile.getAbsolutePath());
-		
+
 		Point hotspot = new Point(0, 0);
 		Cursor cursor = toolkit.createCustomCursor(cursorimage, hotspot,
 				"defaultdraw");
 		setCursor(cursor);
-		
+
 		// Set image to the default cursor image
-		FillCursorImageList() ;
+		FillCursorImageList();
 	}
-	
+
 	public void FillCursorImageList() {
-		Toolkit toolkit = Toolkit.getDefaultToolkit() ;
-		
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+
 		File f = new File("cursors\\");
 		list = f.listFiles();
-		
-		cursorimage = toolkit.getImage(list[4].getAbsolutePath()) ;
+
+		cursorimage = toolkit.getImage(list[4].getAbsolutePath());
 	}
 
 	/**
@@ -135,9 +134,9 @@ public class DrawingPanel extends JPanel {
 		shapeslist.add(line);
 		repaint();
 	}
-	
+
 	public void drawCursorImage(int x, int y) {
-		
+
 	}
 
 	/**
@@ -171,33 +170,30 @@ public class DrawingPanel extends JPanel {
 		selected = i;
 		repaint();
 	}
-	
+
 	public MyShape getSelected() {
 		return shapeslist.get(selected);
 	}
-	
-	
 
 	/**
-	 * Shows a file chooser dialog and import an image (Should only be run wen
+	 * Shows a file chooser dialog and import an image (Should only be run when
 	 * the "Import image" button is clicked
 	 */
 	public void importImage() {
 		final JFileChooser fdialog = new JFileChooser();
-		
-		FileFilter imageFilter = new FileNameExtensionFilter(
-			    "Image files", ImageIO.getReaderFileSuffixes());
+
+		FileFilter imageFilter = new FileNameExtensionFilter("Image files",
+				ImageIO.getReaderFileSuffixes());
 		fdialog.addChoosableFileFilter(imageFilter);
 		fdialog.setAcceptAllFileFilterUsed(false);
-		
+
 		File imagefile = null;
 		fdialog.setDialogTitle("Choose an image..");
 		int fileval = fdialog.showOpenDialog(window);
 
 		if (fileval == JFileChooser.APPROVE_OPTION) {
 			imagefile = fdialog.getSelectedFile();
-		}
-		else {
+		} else {
 			System.err.println("Opening file cancelled of failed");
 		}
 
@@ -221,9 +217,9 @@ public class DrawingPanel extends JPanel {
 	 * object. The differences depend on the orientation of the shape.
 	 * 
 	 * @param x
-	 * 			x-coordinate of the mouse
+	 *            x-coordinate of the mouse
 	 * @param y
-	 * 			y-coordinate of the mouse
+	 *            y-coordinate of the mouse
 	 */
 	public void saveDXY(int x, int y) {
 		MyShape selectedshape = getSelected();
@@ -275,13 +271,14 @@ public class DrawingPanel extends JPanel {
 			}
 		}
 	}
-	
+
 	/**
 	 * Move the currently selected shape according to the position of the mouse.
+	 * 
 	 * @param x
-	 * 			x-coordinate of the mouse
+	 *            x-coordinate of the mouse
 	 * @param y
-	 * 			y-coordinate of the mouse
+	 *            y-coordinate of the mouse
 	 */
 	public void moveShape(int x, int y) {
 		MyShape selectedshape = shapeslist.get(selected);
@@ -325,14 +322,15 @@ public class DrawingPanel extends JPanel {
 	 * strokesize
 	 */
 	public void strokeTool() {
-		if (selected >= 0 && selectedstroke > 0 && selectedstroke <= 100 ) {
+		if (selected >= 0 && selectedstroke > 0 && selectedstroke <= 100) {
 			shapeslist.get(selected).setStroke(selectedstroke);
 			repaint();
 		}
 	}
-	
+
 	/**
 	 * Sets the fill color to the color c.
+	 * 
 	 * @param c
 	 */
 	public void setFillColor(Color c) {
@@ -361,7 +359,6 @@ public class DrawingPanel extends JPanel {
 			shapeslist.get(selected).setNotSelected();
 			selected = -1;
 		}
-
 	}
 
 	/**
@@ -400,8 +397,7 @@ public class DrawingPanel extends JPanel {
 		}
 		if (!(notfound)) {
 			repaint();
-		}
-		else {
+		} else {
 			removeSelections();
 			selected = -1;
 			repaint();
@@ -432,13 +428,17 @@ public class DrawingPanel extends JPanel {
 		}
 		repaint();
 	}
+	
+	public void drawText() {
+		
+	}
 
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
 		Graphics2D g2d = (Graphics2D) g;
-		
+
 		for (MyShape s : shapeslist) {
 			s.draw(g2d);
 
