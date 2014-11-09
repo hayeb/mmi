@@ -167,7 +167,7 @@ public class DrawingPanel extends JPanel {
 		
 		switch (getSelected().getClass().toString()) {
 		case "class MyEllipse":
-			
+			System.out.println("Resizing an ellipse..") ;
 			break ;
 		case "class MyLine":
 			
