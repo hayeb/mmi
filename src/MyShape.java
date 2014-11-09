@@ -11,6 +11,7 @@ public abstract class MyShape {
 
 	boolean isselected = false;
 	boolean isfilled = false;
+	boolean drawing = true;
 
 	BasicStroke stroke = new BasicStroke(3);
 
@@ -36,6 +37,29 @@ public abstract class MyShape {
 		this.y2 = y2;
 	}
 
+	public int inResizeArea(int x, int y) {
+		// Standard resize area of standard shape: Each of the four corners, a
+		// filled box of 15 * 15.
+		boolean sq1 = (x1 - 10 < x && x1 + 10 > x && y1 - 10 < y && y1 + 10 > y); // Topleft
+		boolean sq2 = (x1 - 10 < x && x1 + 10 > x && y2 - 10 < y && y2 + 10 > y); // bottomleft
+		boolean sq3 = (x2 - 10 < x && x2 + 10 > x && y2 - 10 < y && y2 + 10 > y); // bottomright
+		boolean sq4 = (x2 - 10 < x && x2 + 10 > x && y1 - 10 < y && y1 + 10 > y); // topright
+
+		if (sq1) {
+			return 1;
+		} else if (sq2) {
+			return 2;
+		} else if (sq3) {
+			return 3;
+		} else if (sq4) {
+			return 4;
+		}
+		// if not in one of the resize squares, return 0
+		else {
+			return 0;
+		}
+	}
+
 	/**
 	 * 
 	 * @param x
@@ -48,7 +72,7 @@ public abstract class MyShape {
 		// Correct for size if shape is very small
 		int surface = this.width * this.height;
 		Double factor = 1.0;
-		//System.out.println("Surface:" + surface);
+		// System.out.println("Surface:" + surface);
 		if (surface < 250) {
 			factor = 1.5;
 		}
@@ -56,24 +80,9 @@ public abstract class MyShape {
 		// Make shape "bigger" with 1/2 * strokesize
 		strokesize = (float) (0.5 * strokesize * factor);
 
-		// Only do calculations necessary according to orientation of the shape.
-		switch (orientation) {
-		case 1:
-			return ((x1 - strokesize <= x) && (x <= x2 + strokesize))
-					&& ((y1 - strokesize <= y) && (y <= y2 + strokesize));
-		case 2:
-			return ((x1 - strokesize <= x) && (x <= x2 + strokesize))
-					&& ((y2 - strokesize <= y) && (y <= y1 + strokesize));
-		case 3:
-			return ((x2 - strokesize <= x) && (x <= x1 + strokesize))
-					&& ((y2 - strokesize <= y) && (y <= y1 + strokesize));
-		case 4:
-			return ((x2 - strokesize <= x) && (x <= x1 + strokesize))
-					&& ((y1 - strokesize <= y) && (y <= y2 + strokesize));
-		default:
-			System.err.println("There is an error in MyShape contains(x, y)");
-			return true;
-		}
+		return ((x1 - strokesize <= x) && (x <= x2 + strokesize))
+				&& ((y1 - strokesize <= y) && (y <= y2 + strokesize));
+
 	}
 
 	/**
@@ -88,85 +97,34 @@ public abstract class MyShape {
 		g.setStroke(stroke);
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
-
-		if (isselected) {
-			g.setColor(Color.RED);
-			g.setStroke(new BasicStroke(3));
-			switch (orientation) {
-			case 1:
-				g.drawLine(x1 - 10, y1 - 10, x1 + 20, y1 - 10);
-				g.drawLine(x1 - 10, y1 - 10, x1 - 10, y1 + 20);
-				g.drawLine(x2 + 10, y2 + 10, x2 + 10, y2 - 20);
-				g.drawLine(x2 + 10, y2 + 10, x2 - 20, y2 + 10);
-				break;
-			case 2:
-				g.drawLine(x1 - 10, y2 - 10, x1 + 20, y2 - 10);
-				g.drawLine(x1 - 10, y2 - 10, x1 - 10, y2 + 20);
-				g.drawLine(x2 + 10, y1 + 10, x2 + 10, y1 - 20);
-				g.drawLine(x2 + 10, y1 + 10, x2 - 20, y1 + 10);
-				break;
-			case 3:
-				g.drawLine(x2 - 10, y2 - 10, x2 + 20, y2 - 10);
-				g.drawLine(x2 - 10, y2 - 10, x2 - 10, y2 + 20);
-				g.drawLine(x1 + 10, y1 + 10, x1 + 10, y1 - 20);
-				g.drawLine(x1 + 10, y1 + 10, x1 - 20, y1 + 10);
-				break;
-			case 4:
-				g.drawLine(x2 - 10, y1 - 10, x2 + 20, y1 - 10);
-				g.drawLine(x2 - 10, y1 - 10, x2 - 10, y1 + 20);
-				g.drawLine(x1 + 10, y2 + 10, x1 + 10, y2 - 20);
-				g.drawLine(x1 + 10, y2 + 10, x1 - 20, y2 + 10);
-				break;
-			}
-			g.setColor(basecolor);
-			g.setStroke(stroke);
-		}
-		else {
-			g.setColor(basecolor);
-		}
 	}
 
 	/**
-	 * Resets/recalculates the orientation of this object.
+	 * Resets/recalculates the orientation of this object. CHANGED: Now sets the
+	 * orientation to our standard.
 	 */
 	public void resetOrientation() {
 		if (x1 <= x2 && y1 <= y2) {
-			orientation = 1;
-		}
-		else if (x1 <= x2 && y1 >= y2) {
-			orientation = 2;
-		}
-		else if (x1 >= x2 && y1 >= y2) {
-			orientation = 3;
-		}
-		else if (x1 >= x2 && y1 <= y2) {
-			orientation = 4;
-		}
-		else {
-			orientation = 0;
+			// Do nothing, this is our standard orientation. Left this for
+			// clarity.
+		} else if (x1 <= x2 && y1 >= y2) {
+			int tempy1 = y1;
+			y1 = y2;
+			y2 = tempy1;
+		} else if (x1 >= x2 && y1 >= y2) {
+			int tempx1 = x1;
+			int tempy1 = y1;
+			x1 = x2;
+			y1 = y2;
+			x2 = tempx1;
+			y2 = tempy1;
+		} else if (x1 >= x2 && y1 <= y2) {
+			int tempx1 = x1;
+			x1 = x2;
+			x2 = tempx1;
+		} else {
 			System.err.print("There's something wrong with the orientation!");
 		}
-	}
-	
-	public boolean inSelected(int x, int y){
-		
-		switch (orientation) {
-		case 1:
-			
-			break ;
-		case 2:
-			
-			break;
-		case 3:
-			
-			break;
-		case 4:
-			
-			break;
-		default:
-			System.err.println("There is an error in inSelected");
-		}
-		return false ;
 	}
 
 	public void setStroke(int t) {

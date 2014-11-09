@@ -1,13 +1,19 @@
+import java.awt.Cursor;
+import java.awt.Image;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 
 public class MouseButtonHandler implements MouseListener {
 
 	DrawingPanel DrawPanel;
+	Window window;
 
-	public MouseButtonHandler(DrawingPanel dp) {
+	public MouseButtonHandler(DrawingPanel dp, Window w) {
 		DrawPanel = dp;
+		window = w;
 	}
 
 	@Override
@@ -39,8 +45,8 @@ public class MouseButtonHandler implements MouseListener {
 
 		int x = e.getX();
 		int y = e.getY();
-		System.out.println("Current mode is: " + DrawPanel.mode
-				+ ". Mouse clicked on location: " + x + "," + y);
+		// System.out.println("Current mode is: " + DrawPanel.mode
+		// + ". Mouse clicked on location: " + x + "," + y);
 
 		/* Check if mousebutton is not RMB. */
 		if (e.getButton() != 3) {
@@ -85,15 +91,40 @@ public class MouseButtonHandler implements MouseListener {
 			DrawPanel.cursorimage = toolkit.getImage(DrawPanel.list[4]
 					.getAbsolutePath());
 			DrawPanel.repaint();
+		} else if (e.getButton() == 1) {
+			/*
+			 * Reset the shape to our standard orientation. 1. Get the currently
+			 * selected object 2. Reset its orientation so that (x1, y1) is the
+			 * upperleft corner and (x2, y2) is the lowerright corner
+			 */
+			if (DrawPanel.selected >= 0) {
+				DrawPanel.getSelected().drawing = false ;
+				DrawPanel.getSelected().resetOrientation();
+				DrawPanel.repaint() ;
+			}
 		}
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+		File cursorfile = new File("cursors//transparent_cursor.png");
+		Image cursorimage = toolkit.getImage(cursorfile.getAbsolutePath());
+		Point hotspot = new Point(12, 12);
+		Cursor cursor = toolkit.createCustomCursor(cursorimage, hotspot,
+				"InsideDrawPanel");
+		window.setCursor(cursor);
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+		File cursorfile = new File("cursors//Cursor.png");
+		Image cursorimage = toolkit.getImage(cursorfile.getAbsolutePath());
+		Point hotspot = new Point(12, 12);
+		Cursor cursor = toolkit.createCustomCursor(cursorimage, hotspot,
+				"outsideDrawPanel");
+		window.setCursor(cursor);
 	}
 
 }

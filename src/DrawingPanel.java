@@ -58,7 +58,7 @@ public class DrawingPanel extends JPanel {
 		this.width = width;
 		this.height = height;
 		this.window = w;
-		this.addMouseListener(new MouseButtonHandler(this));
+		this.addMouseListener(new MouseButtonHandler(this, w));
 		this.addMouseMotionListener(new MouseMovementHandler(this));
 		this.addMouseWheelListener(new MouseWheelHandler(this));
 
@@ -78,10 +78,10 @@ public class DrawingPanel extends JPanel {
 	public void FillCursorImageList() {
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 
-		File f = new File("cursors\\");
+		File f = new File("cursors");
 		list = f.listFiles();
 
-		cursorimage = toolkit.getImage(list[4].getAbsolutePath());
+		cursorimage = toolkit.getImage(list[4].getPath());
 	}
 
 	/**
@@ -96,7 +96,6 @@ public class DrawingPanel extends JPanel {
 		MyRectangle rectangle = new MyRectangle(x, y, x, y);
 		rectangle.setStroke(selectedstroke);
 		rectangle.setColor(linecolor);
-		rectangle.resetOrientation();
 		shapeslist.add(rectangle);
 		repaint();
 	}
@@ -113,7 +112,6 @@ public class DrawingPanel extends JPanel {
 		MyEllipse ellipse = new MyEllipse(x, y, x, y);
 		ellipse.setStroke(selectedstroke);
 		ellipse.setColor(linecolor);
-		ellipse.resetOrientation();
 		shapeslist.add(ellipse);
 		repaint();
 	}
@@ -130,13 +128,8 @@ public class DrawingPanel extends JPanel {
 		MyLine line = new MyLine(x, y, x, y);
 		line.setStroke(selectedstroke);
 		line.setColor(linecolor);
-		line.resetOrientation();
 		shapeslist.add(line);
 		repaint();
-	}
-
-	public void drawCursorImage(int x, int y) {
-
 	}
 
 	/**
@@ -164,15 +157,75 @@ public class DrawingPanel extends JPanel {
 		MyShape s = shapeslist.get(i);
 		s.setX2(x2);
 		s.setY2(y2);
-		s.resetOrientation();
 		removeSelections();
 		selectShape(s);
 		selected = i;
 		repaint();
 	}
+	public void chooseResizeShape(int x, int y, int corner) {
+		System.out.println(getSelected().getClass().toString());
+		
+		switch (getSelected().getClass().toString()) {
+		case "class MyEllipse":
+			
+			break ;
+		case "class MyLine":
+			
+			break ;
+		case "class MyRectangle":
+			resizeShapeRect(x, y, corner) ;
+			break ;
+		case "class MyText":
+			
+			break ;
+		case "class MyImage":
+			
+			break ;
+		default:
+			System.err.println("There was an error in DrawingPanel chooseResizeShape");
+		}
+	}
+	public void resizeShapeEllipse(int x, int y) {
+		MyShape s = shapeslist.get(selected) ;
+	}
+
+	public void resizeShapeRect(int x, int y, int corner) {
+		MyShape s = shapeslist.get(selected);
+
+		switch (corner) {
+		case 1:
+			s.setX1(x);
+			s.setY1(y);
+			repaint();
+			break;
+		case 2:
+			s.setX1(x);
+			s.setY2(y);
+			repaint();
+			break;
+		case 3:
+			s.setX2(x);
+			s.setY2(y);
+			repaint();
+			break;
+		case 4:
+			s.setX2(x);
+			s.setY1(y);
+			repaint();
+			break;
+		default:
+			System.err
+					.println("There is an error in DrawingPanel resizeShape()");
+		}
+
+	}
 
 	public MyShape getSelected() {
-		return shapeslist.get(selected);
+		if (selected >= 0) {
+			return shapeslist.get(selected);
+		} else {
+			return null;
+		}
 	}
 
 	/**
@@ -214,7 +267,8 @@ public class DrawingPanel extends JPanel {
 	/**
 	 * Save the current difference between x and x1, x and x2, y and y1, y and
 	 * y2. This code should only be run when a mouse button is pressed inside a
-	 * object. The differences depend on the orientation of the shape.
+	 * object. The differences depend on the orientation of the shape. This is
+	 * so to ensure a shape stays the same size when moved across the canvas.
 	 * 
 	 * @param x
 	 *            x-coordinate of the mouse
@@ -222,52 +276,14 @@ public class DrawingPanel extends JPanel {
 	 *            y-coordinate of the mouse
 	 */
 	public void saveDXY(int x, int y) {
-		MyShape selectedshape = getSelected();
-		if (selectedshape.contains(x, y)) {
-			System.out.println("This shape indeed contains x, y");
-			switch (selectedshape.orientation) {
-			case 1:
+		if (selected >= 0) {
+			MyShape selectedshape = getSelected();
+			if (selectedshape.contains(x, y)) {
+				System.out.println("This shape indeed contains x, y");
 				dx1 = x - selectedshape.getX1();
 				dy1 = y - selectedshape.getY1();
 				dx2 = selectedshape.getX2() - x;
 				dy2 = selectedshape.getY2() - y;
-				/*
-				 * System.out.println(selectedshape.orientation + ": " + dx1 +
-				 * "," + dy1 + " : " + dx2 + "," + dy2);
-				 */
-				break;
-			case 2:
-				dx1 = x - selectedshape.getX1();
-				dy1 = selectedshape.getY1() - y;
-				dx2 = selectedshape.getX2() - x;
-				dy2 = y - selectedshape.getY2();
-				/*
-				 * System.out.println(selectedshape.orientation + ": " + dx1 +
-				 * "," + dy1 + " : " + dx2 + "," + dy2);
-				 */
-				break;
-			case 3:
-				dx1 = selectedshape.getX1() - x;
-				dy1 = selectedshape.getY1() - y;
-				dx2 = x - selectedshape.getX2();
-				dy2 = y - selectedshape.getY2();
-				/*
-				 * System.out.println(selectedshape.orientation + ": " + dx1 +
-				 * "," + dy1 + " : " + dx2 + "," + dy2);
-				 */
-				break;
-			case 4:
-				dx1 = selectedshape.getX1() - x;
-				dy1 = y - selectedshape.getY1();
-				dx2 = x - selectedshape.getX2();
-				dy2 = selectedshape.getY2() - y;
-				/*
-				 * System.out.println(selectedshape.orientation + ": " + dx1 +
-				 * "," + dy1 + " : " + dx2 + "," + dy2);
-				 */
-				break;
-			default:
-				System.err.print("Something went wrong in saveDXY()");
 			}
 		}
 	}
@@ -284,35 +300,10 @@ public class DrawingPanel extends JPanel {
 		MyShape selectedshape = shapeslist.get(selected);
 		// System.out.println("Orientation: " + selectedshape.orientation);
 		if (selectedshape.contains(x, y)) {
-			switch (selectedshape.orientation) {
-			case 1:
-				selectedshape.setX1(x - dx1);
-				selectedshape.setY1(y - dy1);
-				selectedshape.setX2(x + dx2);
-				selectedshape.setY2(y + dy2);
-				break;
-			case 2:
-				selectedshape.setX1(x - dx1);
-				selectedshape.setY1(y + dy1);
-				selectedshape.setX2(x + dx2);
-				selectedshape.setY2(y - dy2);
-				break;
-			case 3:
-				selectedshape.setX1(x + dx1);
-				selectedshape.setY1(y + dy1);
-				selectedshape.setX2(x - dx2);
-				selectedshape.setY2(y - dy2);
-				break;
-			case 4:
-				selectedshape.setX1(x + dx1);
-				selectedshape.setY1(y - dy1);
-				selectedshape.setX2(x - dx2);
-				selectedshape.setY2(y + dy2);
-				break;
-			default:
-				System.err.println("Something went wrong in moveShape");
-				break;
-			}
+			selectedshape.setX1(x - dx1);
+			selectedshape.setY1(y - dy1);
+			selectedshape.setX2(x + dx2);
+			selectedshape.setY2(y + dy2);
 		}
 		repaint();
 	}
@@ -382,7 +373,8 @@ public class DrawingPanel extends JPanel {
 	public void toolSelect(int x, int y) {
 		boolean notfound = true;
 		for (int i = 0; i < shapeslist.size() && notfound; i += 1) {
-			if (shapeslist.get(i).contains(x, y)) {
+			if (shapeslist.get(i).contains(x, y)
+					|| shapeslist.get(i).inResizeArea(x, y) > 0) {
 				System.out.println("Found an object..");
 				// System.out.println("The index of the object is: " + i);
 				// Deselect previous selected objects
@@ -428,9 +420,9 @@ public class DrawingPanel extends JPanel {
 		}
 		repaint();
 	}
-	
+
 	public void drawText() {
-		
+
 	}
 
 	@Override
@@ -444,7 +436,7 @@ public class DrawingPanel extends JPanel {
 
 		}
 		// Draw the cursor
-		g2d.drawImage(cursorimage, mousex, mousey, null);
+		g2d.drawImage(cursorimage, mousex - 13, mousey - 12, null);
 	}
 
 	/**

@@ -15,33 +15,42 @@ public class MouseMovementHandler implements MouseMotionListener {
 	public void mouseDragged(MouseEvent e) {
 		// Change the last object created
 
-		int x2 = e.getX();
-		int y2 = e.getY();
-		DrawPanel.mousex = x2 - 16;
-		DrawPanel.mousey = y2 - 11;
+		int x = e.getX();
+		int y = e.getY();
+		// Adjust image of the cursor accordingly
+		DrawPanel.mousex = x - 16;
+		DrawPanel.mousey = y - 11;
+
 		if (SwingUtilities.isLeftMouseButton(e)) {
 			switch (DrawPanel.mode) {
 			case 1:
-				// Move the currently selected object
 				if (DrawPanel.selected >= 0) {
-					DrawPanel.moveShape(x2, y2);
-					if (DrawPanel.getSelected().inSelected(e.getX(), e.getY())) {
-						
+					// Move the currently selected object
+					int corner = DrawPanel.getSelected().inResizeArea(x, y);
+					if (DrawPanel.selected >= 0 && !(corner > 0)) {
+						System.out.println("Moving found shape.. "
+								+ DrawPanel.selected);
+						DrawPanel.moveShape(x, y);
+					} // Resize the selected object
+					else if (DrawPanel.selected >= 0 && corner > 0) {
+						System.out
+								.println("Resizing currently selected object..");
+						DrawPanel.chooseResizeShape(x, y, corner);
 					}
 				}
 				break;
 			case 2:
-				DrawPanel.reShape(x2, y2);
+				DrawPanel.reShape(x, y);
 				break;
 			case 3:
-				DrawPanel.reShape(x2, y2);
+				DrawPanel.reShape(x, y);
 				break;
 			case 4:
-				DrawPanel.reShape(x2, y2);
+				DrawPanel.reShape(x, y);
 				break;
 			}
 		}
-		DrawPanel.repaint() ;
+		DrawPanel.repaint();
 
 	}
 
@@ -49,9 +58,9 @@ public class MouseMovementHandler implements MouseMotionListener {
 	public void mouseMoved(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
-		DrawPanel.mousex = x - 16 ;
-		DrawPanel.mousey = y - 11 ;
-		DrawPanel.repaint() ;
+		DrawPanel.mousex = x - 16;
+		DrawPanel.mousey = y - 11;
+		DrawPanel.repaint();
 	}
 
 }
