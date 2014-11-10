@@ -32,10 +32,15 @@ public class MyRectangle extends MyShape {
 			// Also show that the user can resize the shape
 			g.setColor(Color.RED);
 			g.setStroke(new BasicStroke(2));
-			g.fillRect(x1 - 10, y1 - 10, 20, 20);
-			g.fillRect(x2 - 10, y2 - 10, 20, 20);
-			g.fillRect(x1 - 10, y2 - 10, 20, 20);
-			g.fillRect(x2 - 10, y1 - 10, 20, 20);
+			g.fillOval(x1 - 10, y1 - 10, 20, 20);
+			g.fillOval(x2 - 10, y2 - 10, 20, 20);
+			g.fillOval(x1 - 10, y2 - 10, 20, 20);
+			g.fillOval(x2 - 10, y1 - 10, 20, 20);
+			g.setColor(Color.PINK);
+			g.fillOval(x1 - 5, y1 - 5, 10, 10);
+			g.fillOval(x2 - 5, y2 - 5, 10, 10);
+			g.fillOval(x1 - 5, y2 - 5, 10, 10);
+			g.fillOval(x2 - 5, y1 - 5, 10, 10);
 			g.setColor(basecolor);
 			g.setStroke(stroke);
 		} else {

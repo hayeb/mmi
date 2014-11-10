@@ -160,37 +160,10 @@ public class DrawingPanel extends JPanel {
 		s.setY2(y2);
 		removeSelections();
 		selectShape(s);
-		selected = i;
 		repaint();
 	}
-	public void chooseResizeShape(int x, int y, int corner) {
-		System.out.println(getSelected().getClass().toString());
-		
-		switch (getSelected().getClass().toString()) {
-		case "class MyEllipse":
-			System.out.println("Resizing an ellipse..") ;
-			break ;
-		case "class MyLine":
-			
-			break ;
-		case "class MyRectangle":
-			resizeShapeRect(x, y, corner) ;
-			break ;
-		case "class MyText":
-			
-			break ;
-		case "class MyImage":
-			
-			break ;
-		default:
-			System.err.println("There was an error in DrawingPanel chooseResizeShape");
-		}
-	}
-	public void resizeShapeEllipse(int x, int y) {
-		MyShape s = shapeslist.get(selected) ;
-	}
 
-	public void resizeShapeRect(int x, int y, int corner) {
+	public void resizeShape(int x, int y, int corner) {
 		MyShape s = shapeslist.get(selected);
 
 		switch (corner) {
@@ -231,11 +204,13 @@ public class DrawingPanel extends JPanel {
 	
 	public void insertText( int x, int y) {
 		String s = (String) JOptionPane.showInputDialog(window, "Please enter text:") ;
-		System.out.println("The string is: " + s) ;
-		MyText t = new MyText(s, x, y) ;
-		t.calcText() ;
-		shapeslist.add(t) ;
-		repaint() ;
+		if (s != null){
+				System.out.println("The string is: " + s) ;
+				MyText t = new MyText(s, x, y) ;
+				t.calcText() ;
+				shapeslist.add(t) ;
+				repaint() ;	
+		}
 	}
 
 	/**
