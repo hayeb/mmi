@@ -29,6 +29,9 @@ public class MouseButtonHandler implements MouseListener {
 			case 6:
 				System.out.println("Filling object.. ");
 				break;
+			case 8:
+				DrawPanel.insertText( x, y);
+				break;
 			default:
 				DrawPanel.toolSelect(x, y);
 				break;

@@ -12,8 +12,8 @@ public class MyText extends MyShape {
 		super() ;
 	}
 	
-	public MyText(String s) {
-		super(0,0,0,0) ;
+	public MyText(String s, int x, int y) {
+		super(x,y,0,0) ;
 		this.text = s ; 
 	}
 	/**

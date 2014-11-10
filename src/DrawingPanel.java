@@ -229,10 +229,10 @@ public class DrawingPanel extends JPanel {
 		}
 	}
 	
-	public void insertText() {
+	public void insertText( int x, int y) {
 		String s = (String) JOptionPane.showInputDialog(window, "Please enter text:") ;
 		System.out.println("The string is: " + s) ;
-		MyText t = new MyText(s) ;
+		MyText t = new MyText(s, x, y) ;
 		t.calcText() ;
 		shapeslist.add(t) ;
 		repaint() ;
@@ -429,10 +429,6 @@ public class DrawingPanel extends JPanel {
 			shapeslist.get(selected).setColor(c);
 		}
 		repaint();
-	}
-
-	public void drawText() {
-
 	}
 
 	@Override

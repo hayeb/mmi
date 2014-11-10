@@ -46,10 +46,11 @@ public class ButtonHandler implements ActionListener {
 			drawpanel.fillSelectedShape();
 			break ;
 		case "Import Image":
+			drawpanel.mode = 7;
 			drawpanel.importImage();
 			break ;
 		case "Insert Text":
-			drawpanel.insertText();
+			drawpanel.mode = 8;
 			break ;
 		default:
 			System.err.println("The is an error in Buttonhandler actionPerformed") ;
