@@ -18,7 +18,13 @@ public class MouseWheelHandler implements MouseWheelListener {
 			DrawPanel.selectedstroke = strokesize;
 			DrawPanel.strokeTool();
 		}
-		
+		if(DrawPanel.selected >= 0){
+			int fontsize = DrawPanel.getSelected().getFontSize();
+			fontsize = fontsize + e.getWheelRotation();
+			if (fontsize > 4 && strokesize <= 480) {
+				DrawPanel.getSelected().setFontSize( fontsize) ;
+			}
+		}
 	}
 
 }

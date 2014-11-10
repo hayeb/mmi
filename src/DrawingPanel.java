@@ -235,16 +235,18 @@ public class DrawingPanel extends JPanel {
 			System.err.println("Opening file cancelled of failed");
 		}
 
-		BufferedImage myPicture;
-		try {
-			myPicture = ImageIO.read(imagefile);
-			MyImage image = new MyImage(myPicture, 0, 0, myPicture.getWidth(),
-					myPicture.getHeight());
-			shapeslist.add(image);
-			repaint();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			System.err.println("Failed to load selected file as image");
+		if (imagefile != null){
+			BufferedImage myPicture;
+			try {
+				myPicture = ImageIO.read(imagefile);
+				MyImage image = new MyImage(myPicture, 0, 0, myPicture.getWidth(),
+						myPicture.getHeight());
+				shapeslist.add(image);
+				repaint();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				System.err.println("Failed to load selected file as image");
+			}
 		}
 
 	}

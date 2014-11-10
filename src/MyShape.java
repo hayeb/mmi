@@ -14,6 +14,7 @@ public abstract class MyShape {
 	boolean drawing = true;
 
 	BasicStroke stroke = new BasicStroke(3);
+	int fontsize = 20;
 
 	Color basecolor = Color.BLACK;
 	Color selectedcolor = Color.RED;
@@ -129,6 +130,14 @@ public abstract class MyShape {
 
 	public void setStroke(int t) {
 		stroke = new BasicStroke(t);
+	}
+	
+	public void setFontSize(int f){
+		fontsize = f;
+	}
+	
+	public int getFontSize(){
+		return fontsize;
 	}
 
 	public void setColor(Color color) {
