@@ -20,7 +20,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class DrawingPanel extends JPanel {
 	/*
-	 * TODO: Implement resizing shapes TODO: Implement entering and editing text
 	 * TODO: Add move to background function/button (first in list) TODO:
 	 * Possibly: Draw fixed shapes sizes/angels etc. TODO: Multiselect
 	 */
@@ -29,7 +28,7 @@ public class DrawingPanel extends JPanel {
 	int height;
 	Window window;
 	int mode = 0; // 0=nomode, 1=select, 2=drawrect, 3=drawellipse, 4=drawline,
-					// 5=delete
+					// 5=delete, 6=fill, 7=image, 8=text
 	public int mousex = 0;
 	public int mousey = 0;
 	File[] list;
@@ -85,6 +84,14 @@ public class DrawingPanel extends JPanel {
 		cursorimage = toolkit.getImage(list[4].getPath());
 	}
 
+	public MyShape getSelected() {
+		if (selected >= 0) {
+			return shapeslist.get(selected);
+		} else {
+			return null;
+		}
+	}
+
 	/**
 	 * Draw a rectangle at point (x, y) 1 pixel wide and 1 pixel high
 	 * 
@@ -131,6 +138,122 @@ public class DrawingPanel extends JPanel {
 		line.setColor(linecolor);
 		shapeslist.add(line);
 		repaint();
+	}
+
+	public void insertText(int x, int y) {
+		String s = (String) JOptionPane.showInputDialog(window,
+				"Please enter text:");
+		if (s != null) {
+			System.out.println("The string is: " + s);
+			MyText t = new MyText(s, x, y);
+			t.calcText();
+			shapeslist.add(t);
+			repaint();
+		}
+	}
+
+	/**
+	 * Shows a file chooser dialog and import an image (Should only be run when
+	 * the "Import image" button is clicked
+	 */
+	public void importImage() {
+		final JFileChooser fdialog = new JFileChooser();
+
+		FileFilter imageFilter = new FileNameExtensionFilter("Image files",
+				ImageIO.getReaderFileSuffixes());
+		fdialog.addChoosableFileFilter(imageFilter);
+		fdialog.setAcceptAllFileFilterUsed(false);
+
+		File imagefile = null;
+		fdialog.setDialogTitle("Choose an image..");
+		int fileval = fdialog.showOpenDialog(window);
+
+		if (fileval == JFileChooser.APPROVE_OPTION) {
+			imagefile = fdialog.getSelectedFile();
+		} else {
+			System.err.println("Opening file cancelled of failed");
+		}
+
+		if (imagefile != null) {
+			BufferedImage myPicture;
+			try {
+				myPicture = ImageIO.read(imagefile);
+				MyImage image = new MyImage(myPicture, 0, 0,
+						myPicture.getWidth(), myPicture.getHeight());
+				shapeslist.add(image);
+				repaint();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				System.err.println("Failed to load selected file as image");
+			}
+		}
+
+	}
+
+	/**
+	 * Selects an existing object which contains the position (x, y)
+	 * 
+	 * @param x
+	 * @param y
+	 */
+	public void toolSelect(int x, int y) {
+		boolean notfound = true;
+		for (int i = 0; i < shapeslist.size() && notfound; i += 1) {
+			if (shapeslist.get(i).contains(x, y)
+					|| shapeslist.get(i).inResizeArea(x, y) > 0) {
+				System.out.println("Found an object..");
+				// System.out.println("The index of the object is: " + i);
+				// Deselect previous selected objects
+				removeSelections();
+				// Select currently clicked object
+				selectShape(shapeslist.get(i));
+				MyShape s = shapeslist.remove(i);
+				shapeslist.add(s);
+				selected = shapeslist.size() - 1;
+				notfound = false;
+			}
+		}
+		if (!(notfound)) {
+			repaint();
+		} else {
+			removeSelections();
+			selected = -1;
+			repaint();
+		}
+
+	}
+
+	/**
+	 * Deselects everyting on the screen
+	 */
+	public void removeSelections() {
+		if (selected >= 0) {
+			shapeslist.get(selected).setNotSelected();
+			selected = -1;
+		}
+	}
+
+	/**
+	 * Delete the shape which is currently selected
+	 * 
+	 * @param x
+	 * @param y
+	 */
+	public void deleteSelectedShape() {
+		if (selected >= 0) {
+			shapeslist.remove(selected);
+			selected = -1;
+			repaint();
+		}
+	}
+
+	/**
+	 * Sets the fill color to the color c.
+	 * 
+	 * @param c
+	 */
+	public void setFillColor(Color c) {
+		fillcolor = c;
 	}
 
 	/**
@@ -194,63 +317,6 @@ public class DrawingPanel extends JPanel {
 
 	}
 
-	public MyShape getSelected() {
-		if (selected >= 0) {
-			return shapeslist.get(selected);
-		} else {
-			return null;
-		}
-	}
-	
-	public void insertText( int x, int y) {
-		String s = (String) JOptionPane.showInputDialog(window, "Please enter text:") ;
-		if (s != null){
-				System.out.println("The string is: " + s) ;
-				MyText t = new MyText(s, x, y) ;
-				t.calcText() ;
-				shapeslist.add(t) ;
-				repaint() ;	
-		}
-	}
-
-	/**
-	 * Shows a file chooser dialog and import an image (Should only be run when
-	 * the "Import image" button is clicked
-	 */
-	public void importImage() {
-		final JFileChooser fdialog = new JFileChooser();
-
-		FileFilter imageFilter = new FileNameExtensionFilter("Image files",
-				ImageIO.getReaderFileSuffixes());
-		fdialog.addChoosableFileFilter(imageFilter);
-		fdialog.setAcceptAllFileFilterUsed(false);
-
-		File imagefile = null;
-		fdialog.setDialogTitle("Choose an image..");
-		int fileval = fdialog.showOpenDialog(window);
-
-		if (fileval == JFileChooser.APPROVE_OPTION) {
-			imagefile = fdialog.getSelectedFile();
-		} else {
-			System.err.println("Opening file cancelled of failed");
-		}
-
-		if (imagefile != null){
-			BufferedImage myPicture;
-			try {
-				myPicture = ImageIO.read(imagefile);
-				MyImage image = new MyImage(myPicture, 0, 0, myPicture.getWidth(),
-						myPicture.getHeight());
-				shapeslist.add(image);
-				repaint();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				System.err.println("Failed to load selected file as image");
-			}
-		}
-
-	}
-
 	/**
 	 * Save the current difference between x and x1, x and x2, y and y1, y and
 	 * y2. This code should only be run when a mouse button is pressed inside a
@@ -296,50 +362,6 @@ public class DrawingPanel extends JPanel {
 	}
 
 	/**
-	 * Changes the strokesize of the currently selected MyShape object to
-	 * strokesize
-	 */
-	public void strokeTool() {
-		if (selected >= 0 && selectedstroke > 0 && selectedstroke <= 100) {
-			shapeslist.get(selected).setStroke(selectedstroke);
-			repaint();
-		}
-	}
-
-	/**
-	 * Sets the fill color to the color c.
-	 * 
-	 * @param c
-	 */
-	public void setFillColor(Color c) {
-		fillcolor = c;
-	}
-
-	/**
-	 * Delete the shape which is currently selected
-	 * 
-	 * @param x
-	 * @param y
-	 */
-	public void deleteSelectedShape() {
-		if (selected >= 0) {
-			shapeslist.remove(selected);
-			selected = -1;
-			repaint();
-		}
-	}
-
-	/**
-	 * Deselects everyting on the screen
-	 */
-	public void removeSelections() {
-		if (selected >= 0) {
-			shapeslist.get(selected).setNotSelected();
-			selected = -1;
-		}
-	}
-
-	/**
 	 * Select the shape s, and change the value of strokeslider to
 	 * 
 	 * @param s
@@ -352,36 +374,14 @@ public class DrawingPanel extends JPanel {
 	}
 
 	/**
-	 * Selects an existing object which contains the position (x, y)
-	 * 
-	 * @param x
-	 * @param y
+	 * Changes the strokesize of the currently selected MyShape object to
+	 * strokesize
 	 */
-	public void toolSelect(int x, int y) {
-		boolean notfound = true;
-		for (int i = 0; i < shapeslist.size() && notfound; i += 1) {
-			if (shapeslist.get(i).contains(x, y)
-					|| shapeslist.get(i).inResizeArea(x, y) > 0) {
-				System.out.println("Found an object..");
-				// System.out.println("The index of the object is: " + i);
-				// Deselect previous selected objects
-				removeSelections();
-				// Select currently clicked object
-				selectShape(shapeslist.get(i));
-				MyShape s = shapeslist.remove(i);
-				shapeslist.add(s);
-				selected = shapeslist.size() - 1;
-				notfound = false;
-			}
-		}
-		if (!(notfound)) {
-			repaint();
-		} else {
-			removeSelections();
-			selected = -1;
+	public void strokeTool() {
+		if (selected >= 0 && selectedstroke > 0 && selectedstroke <= 100) {
+			shapeslist.get(selected).setStroke(selectedstroke);
 			repaint();
 		}
-
 	}
 
 	/**

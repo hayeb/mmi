@@ -35,7 +35,7 @@ public class MouseMovementHandler implements MouseMotionListener {
 					else if (DrawPanel.selected >= 0 && corner > 0) {
 						System.out
 								.println("Resizing currently selected object..");
-						DrawPanel.resizeShape(x, y, corner) ;
+						DrawPanel.resizeShape(x, y, corner);
 					}
 				}
 				break;

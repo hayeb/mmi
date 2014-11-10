@@ -16,7 +16,6 @@ public class MyLine extends MyShape {
 		 */
 		super(x1, y1, x2, y2);
 	}
-	
 
 	@Override
 	public void draw(Graphics2D g) {
@@ -37,19 +36,19 @@ public class MyLine extends MyShape {
 
 	@Override
 	public void resetOrientation() {
-		System.out.println("Now uses this method..") ;
+		System.out.println("Now uses this method..");
 	}
 
 	@Override
-	public boolean contains(int x, int y) {	
-		boolean case1, case2, case3, case4 = false ;
-		
+	public boolean contains(int x, int y) {
+		boolean case1, case2, case3, case4 = false;
+
 		case1 = (x1 < x && x < x2 && y1 < y && y < y2);
-		case2 = (x1 < x && x < x2 && y1 > y && y > y2) ;
-		case3 = (x1 > x && x > x2 && y1 > y && y > y2) ;
-		case4 = (x1 > x && x > x2 && y1 < y && y < y2) ;
-				
-		return case1 || case2 || case3 || case4 ;
+		case2 = (x1 < x && x < x2 && y1 > y && y > y2);
+		case3 = (x1 > x && x > x2 && y1 > y && y > y2);
+		case4 = (x1 > x && x > x2 && y1 < y && y < y2);
+
+		return case1 || case2 || case3 || case4;
 
 	}
 }

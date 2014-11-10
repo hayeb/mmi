@@ -131,12 +131,12 @@ public abstract class MyShape {
 	public void setStroke(int t) {
 		stroke = new BasicStroke(t);
 	}
-	
-	public void setFontSize(int f){
+
+	public void setFontSize(int f) {
 		fontsize = f;
 	}
-	
-	public int getFontSize(){
+
+	public int getFontSize() {
 		return fontsize;
 	}
 

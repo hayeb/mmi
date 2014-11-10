@@ -32,7 +32,7 @@ public class MyEllipse extends MyShape {
 			// Also show that the user can resize the shape
 			g.setColor(Color.RED);
 			g.setStroke(new BasicStroke(2));
-			g.fillOval(x1 - 10, y1 - 10 , 20, 20);
+			g.fillOval(x1 - 10, y1 - 10, 20, 20);
 			g.fillOval(x2 - 10, y2 - 10, 20, 20);
 			g.fillOval(x1 - 10, y2 - 10, 20, 20);
 			g.fillOval(x2 - 10, y1 - 10, 20, 20);

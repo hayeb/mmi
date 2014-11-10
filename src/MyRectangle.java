@@ -21,13 +21,13 @@ public class MyRectangle extends MyShape {
 		super.draw(g);
 		Rectangle2D.Double rect = new Rectangle2D.Double(startx, starty, width,
 				height);
-		g.setColor(basecolor) ;
+		g.setColor(basecolor);
 		g.draw(rect);
 		if (isfilled) {
 			g.setColor(fillcolor);
 			g.fill(rect);
 		}
-		
+
 		if (isselected && !drawing) {
 			// Also show that the user can resize the shape
 			g.setColor(Color.RED);

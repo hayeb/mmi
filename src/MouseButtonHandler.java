@@ -30,7 +30,7 @@ public class MouseButtonHandler implements MouseListener {
 				System.out.println("Filling object.. ");
 				break;
 			case 8:
-				DrawPanel.insertText( x, y);
+				DrawPanel.insertText(x, y);
 				break;
 			default:
 				DrawPanel.toolSelect(x, y);
@@ -101,9 +101,9 @@ public class MouseButtonHandler implements MouseListener {
 			 * upperleft corner and (x2, y2) is the lowerright corner
 			 */
 			if (DrawPanel.selected >= 0) {
-				DrawPanel.getSelected().drawing = false ;
+				DrawPanel.getSelected().drawing = false;
 				DrawPanel.getSelected().resetOrientation();
-				DrawPanel.repaint() ;
+				DrawPanel.repaint();
 			}
 		}
 	}
