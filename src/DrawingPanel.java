@@ -13,6 +13,7 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -226,6 +227,15 @@ public class DrawingPanel extends JPanel {
 		} else {
 			return null;
 		}
+	}
+	
+	public void insertText() {
+		String s = (String) JOptionPane.showInputDialog(window, "Please enter text:") ;
+		System.out.println("The string is: " + s) ;
+		MyText t = new MyText(s) ;
+		t.calcText() ;
+		shapeslist.add(t) ;
+		repaint() ;
 	}
 
 	/**

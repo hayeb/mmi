@@ -45,6 +45,14 @@ public class ButtonHandler implements ActionListener {
 			drawpanel.mode = 6;
 			drawpanel.fillSelectedShape();
 			break ;
+		case "Import Image":
+			drawpanel.importImage();
+			break ;
+		case "Insert Text":
+			drawpanel.insertText();
+			break ;
+		default:
+			System.err.println("The is an error in Buttonhandler actionPerformed") ;
 		}
 	}
 }

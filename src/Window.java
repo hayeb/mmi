@@ -77,7 +77,7 @@ public class Window extends JFrame {
 
 	/**
 	 * Creates a set of buttons with corresponding commands which change the
-	 * selected mode of the drawingpanel
+	 * selected mode of the drawingpanel or import an image/text.
 	 * 
 	 * @param drawpanel
 	 *            Drawingpanel of which the selected color is changed
@@ -86,8 +86,7 @@ public class Window extends JFrame {
 	 */
 	private void CreateButtons(DrawingPanel drawpanel, Panel ButtonBar) {
 		String[] NameList = { "Draw Rectangle", "Draw Ellipse", "Draw Line",
-				"Fill", "Delete", "Clear" };
-		ButtonBar.add(new ImportImageButton(drawpanel, "Import image"));
+				"Fill", "Insert Text", "Import Image", "Delete", "Clear" };
 		for (String s : NameList) {
 			ButtonPanel bc = new ButtonPanel(drawpanel, s);
 			ButtonBar.add(bc);

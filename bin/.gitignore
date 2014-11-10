@@ -3,6 +3,7 @@
 /ColorButton.class
 /ColorButtonHandler.class
 /ColorButtonPanel.class
+/CursorImage.class
 /DrawingPanel.class
 /ImportImageButton.class
 /ImportImageButtonHandler.class
@@ -16,8 +17,6 @@
 /MyLine.class
 /MyRectangle.class
 /MyShape.class
+/MyText.class
 /Utils.class
 /Window.class
-/CursorImage.class
-/mmi/
-/MyText.class
