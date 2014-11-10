@@ -84,14 +84,6 @@ public class DrawingPanel extends JPanel {
 		cursorimage = toolkit.getImage(list[4].getPath());
 	}
 
-	public MyShape getSelected() {
-		if (selected >= 0) {
-			return shapeslist.get(selected);
-		} else {
-			return null;
-		}
-	}
-
 	/**
 	 * Draw a rectangle at point (x, y) 1 pixel wide and 1 pixel high
 	 * 
@@ -221,6 +213,14 @@ public class DrawingPanel extends JPanel {
 			repaint();
 		}
 
+	}
+
+	public MyShape getSelected() {
+		if (selected >= 0) {
+			return shapeslist.get(selected);
+		} else {
+			return null;
+		}
 	}
 
 	/**

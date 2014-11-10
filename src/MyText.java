@@ -38,12 +38,19 @@ public class MyText extends MyShape {
 		g.drawString(text, x1, y1);
 
 		if (isselected) {
+			g.setColor(Color.PINK);
+			g.setStroke(new BasicStroke(6));
+			g.drawLine(x1 - 10, y1 - 10, x1 + 20, y1 - 10);
+			g.drawLine(x1 - 10, y1 - 10, x1 - 10, y1 + 20);
+			g.drawLine(x2 + 10, y2 + 10, x2 + 10, y2 - 20);
+			g.drawLine(x2 + 10, y2 + 10, x2 - 20, y2 + 10);
 			g.setColor(Color.RED);
 			g.setStroke(new BasicStroke(3));
 			g.drawLine(x1 - 10, y1 - 10, x1 + 20, y1 - 10);
 			g.drawLine(x1 - 10, y1 - 10, x1 - 10, y1 + 20);
 			g.drawLine(x2 + 10, y2 + 10, x2 + 10, y2 - 20);
 			g.drawLine(x2 + 10, y2 + 10, x2 - 20, y2 + 10);
+
 		}
 	}
 }

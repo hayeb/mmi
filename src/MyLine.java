@@ -24,13 +24,13 @@ public class MyLine extends MyShape {
 		g.setColor(basecolor);
 		g.draw(line);
 
-		if (isselected) {
-			g.setColor(Color.RED);
+		if (isselected && !drawing) {
+			g.setColor(Color.PINK);
 			g.fillOval(x1 - 10, y1 - 10, 20, 20);
 			g.fillOval(x2 - 10, y2 - 10, 20, 20);
-			g.setColor(Color.PINK);
-			g.fillOval(x1 - 5, y1 - 5, 10, 10);
-			g.fillOval(x2 - 5, y2 - 5, 10, 10);
+			g.setColor(Color.RED);
+			g.fillOval(x1 - 8, y1 - 8, 16, 16);
+			g.fillOval(x2 - 8, y2 - 8, 16, 16);
 		}
 	}
 
