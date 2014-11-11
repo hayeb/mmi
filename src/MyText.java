@@ -26,6 +26,11 @@ public class MyText extends MyShape {
 	}
 
 	@Override
+	public int inResizeArea(int x, int y) {
+		return 0;
+	}
+	
+	@Override
 	public void draw(Graphics2D g) {
 		super.draw(g);
 		// Zie dopefishh generationShapeFromText
