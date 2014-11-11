@@ -28,8 +28,9 @@ public class MyText extends MyShape {
 	@Override
 	public void draw(Graphics2D g) {
 		super.draw(g);
+		// Zie dopefishh generationShapeFromText
 		g.setFont(new Font("ComicSans", Font.PLAIN, fontsize));
-		g.setColor(this.basecolor);
+		g.setColor(Color.RED);
 		FontMetrics metrics = g.getFontMetrics(g.getFont());
 		int hgt = metrics.getHeight();
 		int adv = metrics.stringWidth(text);

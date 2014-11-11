@@ -17,9 +17,6 @@ public class MouseMovementHandler implements MouseMotionListener {
 
 		int x = e.getX();
 		int y = e.getY();
-		// Adjust image of the cursor accordingly
-		DrawPanel.mousex = x - 16;
-		DrawPanel.mousey = y - 11;
 
 		if (SwingUtilities.isLeftMouseButton(e)) {
 			switch (DrawPanel.mode) {
@@ -27,26 +24,26 @@ public class MouseMovementHandler implements MouseMotionListener {
 				if (DrawPanel.selected >= 0) {
 					// Move the currently selected object
 					int corner = DrawPanel.getSelected().inResizeArea(x, y);
-					if (DrawPanel.selected >= 0 && !(corner > 0)) {
+					if (DrawPanel.selected >= 0 && corner == 0 && !DrawPanel.resizing ) {
 						System.out.println("Moving found shape.. "
 								+ DrawPanel.selected);
 						DrawPanel.moveShape(x, y);
 					} // Resize the selected object
-					else if (DrawPanel.selected >= 0 && corner > 0) {
+					else if (DrawPanel.selected >= 0 && DrawPanel.resizing) {
 						System.out
 								.println("Resizing currently selected object..");
-						DrawPanel.resizeShape(x, y, corner);
+						DrawPanel.reShape(x, y, DrawPanel.corner);
 					}
 				}
 				break;
 			case 2:
-				DrawPanel.reShape(x, y);
+				DrawPanel.shape(x, y);
 				break;
 			case 3:
-				DrawPanel.reShape(x, y);
+				DrawPanel.shape(x, y);
 				break;
 			case 4:
-				DrawPanel.reShape(x, y);
+				DrawPanel.shape(x, y);
 				break;
 			}
 		}
@@ -56,11 +53,6 @@ public class MouseMovementHandler implements MouseMotionListener {
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		int x = e.getX();
-		int y = e.getY();
-		DrawPanel.mousex = x - 16;
-		DrawPanel.mousey = y - 11;
-		DrawPanel.repaint();
 	}
 
 }

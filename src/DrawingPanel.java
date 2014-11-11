@@ -29,19 +29,29 @@ public class DrawingPanel extends JPanel {
 	Window window;
 	int mode = 0; // 0=nomode, 1=select, 2=drawrect, 3=drawellipse, 4=drawline,
 					// 5=delete, 6=fill, 7=image, 8=text
-	public int mousex = 0;
-	public int mousey = 0;
+	
+	int corner = 0 ;
 	File[] list;
 	Image cursorimages[] = {};
 
+	public Point mousepoint = new Point(27, 21);
+	public Point transmousepoint = new Point(0,0) ;
+	Cursor transcursor = null ;
+	Cursor mousecursor = null ;
+
 	Image cursorimage = null;
+	Image transimage = null ;
 	int selected = -1;
 	int selectedstroke = 3;
+	boolean resizing = false ;
 
 	int dx1, dy1, dx2, dy2;
 
 	public Color fillcolor = null;
 	public Color linecolor = Color.BLACK;
+
+	public boolean isMouseOptions = false;
+	public int mousex, mousey = 0;
 
 	List<MyShape> shapeslist = new ArrayList<MyShape>();
 
@@ -63,25 +73,14 @@ public class DrawingPanel extends JPanel {
 		this.addMouseWheelListener(new MouseWheelHandler(this));
 
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
-		File cursorfile = new File("cursors//tranparent_cursor.png");
+		File cursorfile = new File("cursors//Cursor_zonder.png");
 		cursorimage = toolkit.getImage(cursorfile.getAbsolutePath());
-
-		Point hotspot = new Point(0, 0);
-		Cursor cursor = toolkit.createCustomCursor(cursorimage, hotspot,
+		transimage = toolkit.getImage(new File("cursors//transparent_cursor").getAbsolutePath()) ;
+		 mousecursor = toolkit.createCustomCursor(cursorimage, mousepoint,
 				"defaultdraw");
-		setCursor(cursor);
-
-		// Set image to the default cursor image
-		FillCursorImageList();
-	}
-
-	public void FillCursorImageList() {
-		Toolkit toolkit = Toolkit.getDefaultToolkit();
-
-		File f = new File("cursors");
-		list = f.listFiles();
-
-		cursorimage = toolkit.getImage(list[4].getPath());
+		transcursor = toolkit.createCustomCursor(transimage, transmousepoint, "transcursor");
+		cursorimage = toolkit.getImage(new File("cursors//Cursor_met.png").getAbsolutePath()) ;
+		setCursor(mousecursor);
 	}
 
 	/**
@@ -136,12 +135,12 @@ public class DrawingPanel extends JPanel {
 		String s = (String) JOptionPane.showInputDialog(window,
 				"Please enter text:");
 		if (s != null) {
-			System.out.println("The string is: " + s);
 			MyText t = new MyText(s, x, y);
 			t.calcText();
 			shapeslist.add(t);
 			repaint();
 		}
+		setCursor(mousecursor);
 	}
 
 	/**
@@ -150,7 +149,6 @@ public class DrawingPanel extends JPanel {
 	 */
 	public void importImage() {
 		final JFileChooser fdialog = new JFileChooser();
-
 		FileFilter imageFilter = new FileNameExtensionFilter("Image files",
 				ImageIO.getReaderFileSuffixes());
 		fdialog.addChoosableFileFilter(imageFilter);
@@ -162,7 +160,8 @@ public class DrawingPanel extends JPanel {
 
 		if (fileval == JFileChooser.APPROVE_OPTION) {
 			imagefile = fdialog.getSelectedFile();
-		} else {
+		}
+		else {
 			System.err.println("Opening file cancelled of failed");
 		}
 
@@ -179,7 +178,28 @@ public class DrawingPanel extends JPanel {
 				System.err.println("Failed to load selected file as image");
 			}
 		}
+		setCursor(mousecursor);
+	}
+	
+	public void removeMouseCursor() {
+		mousex = -1 ;
+		mousey = -1 ;
+		isMouseOptions = false ;
+		setCursor(mousecursor);
+		}
 
+	/**
+	 * Draws the current mouse cursor image at x, y and makes the actual cursor
+	 * invisible.
+	 * 
+	 * @param x
+	 * @param y
+	 */
+	public void drawMouseCursor(int x, int y) {
+		mousex = x - 27;
+		mousey = y - 21;
+		isMouseOptions = true;
+		setCursor(transcursor);
 	}
 
 	/**
@@ -207,7 +227,8 @@ public class DrawingPanel extends JPanel {
 		}
 		if (!(notfound)) {
 			repaint();
-		} else {
+		}
+		else {
 			removeSelections();
 			selected = -1;
 			repaint();
@@ -218,7 +239,8 @@ public class DrawingPanel extends JPanel {
 	public MyShape getSelected() {
 		if (selected >= 0) {
 			return shapeslist.get(selected);
-		} else {
+		}
+		else {
 			return null;
 		}
 	}
@@ -276,7 +298,7 @@ public class DrawingPanel extends JPanel {
 	 * @param y2
 	 *            y coordinate of the bottom right corner
 	 */
-	public void reShape(int x2, int y2) {
+	public void shape(int x2, int y2) {
 		int i = shapeslist.size() - 1;
 		MyShape s = shapeslist.get(i);
 		s.setX2(x2);
@@ -286,7 +308,7 @@ public class DrawingPanel extends JPanel {
 		repaint();
 	}
 
-	public void resizeShape(int x, int y, int corner) {
+	public void reShape(int x, int y, int corner) {
 		MyShape s = shapeslist.get(selected);
 
 		switch (corner) {
@@ -312,7 +334,7 @@ public class DrawingPanel extends JPanel {
 			break;
 		default:
 			System.err
-					.println("There is an error in DrawingPanel resizeShape()");
+					.println("There is an error in DrawingPanel reShape()");
 		}
 
 	}
@@ -418,8 +440,13 @@ public class DrawingPanel extends JPanel {
 			s.draw(g2d);
 
 		}
+
+		// Draw the image of the cursor if isMouseOption at x - 27, y - 21
+		if (isMouseOptions) {
+			g2d.drawImage(cursorimage, mousex, mousey, null);
+		}
 		// Draw the cursor
-		g2d.drawImage(cursorimage, mousex - 13, mousey - 12, null);
+		// g2d.drawImage(cursorimage, mousex - 13, mousey - 12, null);
 	}
 
 	/**

@@ -48,6 +48,7 @@ public class ButtonHandler implements ActionListener {
 		case "Import Image":
 			drawpanel.mode = 7;
 			drawpanel.importImage();
+			drawpanel.mode = 1;
 			break;
 		case "Insert Text":
 			drawpanel.mode = 8;
