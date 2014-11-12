@@ -41,7 +41,7 @@ public class MyText extends MyShape {
 		int adv = metrics.stringWidth(text);
 		x2 = x1 + adv;
 		y2 = y1 + hgt;
-		g.drawString(text, x1, y1);
+		g.drawString(text, x1, y2);
 
 		if (isselected) {
 			g.setColor(Color.PINK);
