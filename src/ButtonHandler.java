@@ -21,9 +21,12 @@ public class ButtonHandler implements ActionListener {
 		// Perform corresponding action: Change mode of cursor
 		// "Draw", "Draw Rectangle", "Draw ellipse", "Draw line", "Delete",
 		// "no mode"
+		drawpanel.mousemode = 0 ;
+		drawpanel.removeMouseCursor();
 		switch (cmd) {
 		case "No Mode":
 			this.drawpanel.mode = 0;
+			
 			break;
 		case "Select":
 			this.drawpanel.mode = 1;

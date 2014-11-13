@@ -17,7 +17,7 @@ public class Window extends JFrame {
 		super();
 		// initialize width & height to be used for the drawpanel & internal
 		// padding of the canvas
-		int width = 1024;
+		int width = 1366;
 		int height = 768;
 		super.setTitle("Awesome Software of Awesomeness");
 		super.setSize(new Dimension(width, height));
@@ -86,7 +86,7 @@ public class Window extends JFrame {
 	 */
 	private void CreateButtons(DrawingPanel drawpanel, Panel ButtonBar) {
 		String[] NameList = { "Draw Rectangle", "Draw Ellipse", "Draw Line",
-				"Fill", "Insert Text", "Import Image", "Delete", "Clear" };
+				"Insert Text", "Import Image", "Clear" };
 		for (String s : NameList) {
 			ButtonPanel bc = new ButtonPanel(drawpanel, s);
 			ButtonBar.add(bc);
@@ -130,7 +130,8 @@ public class Window extends JFrame {
 			if (x >= 1) {
 				x = 0;
 				y += 1;
-			} else {
+			}
+			else {
 				x += 1;
 			}
 		}

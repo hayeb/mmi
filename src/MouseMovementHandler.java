@@ -47,6 +47,19 @@ public class MouseMovementHandler implements MouseMotionListener {
 				break;
 			}
 		}
+		else if (SwingUtilities.isRightMouseButton(e)) {
+			/* We need to determine which mouse cursor to display.
+		 	Option 1: (111, 60)
+		 	Option 2: (93, 89)
+		 	Option 3: (64, 110) 
+		 	Option 4: (28, 115) 
+		 	*/
+			
+			x = e.getX() ;
+			y = e.getY() ;
+			
+			DrawPanel.mouseOptionChooser(x, y) ;
+		}
 		DrawPanel.repaint();
 
 	}

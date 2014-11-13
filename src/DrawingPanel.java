@@ -31,16 +31,29 @@ public class DrawingPanel extends JPanel {
 					// 5=delete, 6=fill, 7=image, 8=text
 
 	int corner = 0;
+	int mousemode = 0;
 	File[] list;
 	Image cursorimages[] = {};
 
-	public Point mousepoint = new Point(27, 21);
+	public Point mousepoint = new Point(27, 22);
 	public Point transmousepoint = new Point(0, 0);
 	Cursor transcursor = null;
 	Cursor mousecursor = null;
 
 	Image cursorimage = null;
 	Image transimage = null;
+	Image cursor = null;
+	Image cursorMet = null;
+	Image cursorZonder = null;
+	Image optionFill = null;
+	Image optionLine = null;
+	Image optionDelete = null;
+	Image optionBackground = null;
+	Image cursorLine = null;
+	Image cursorFill = null;
+	Image cursorBackground = null;
+	Image cursorDelete = null;
+
 	int selected = -1;
 	int selectedstroke = 3;
 	boolean resizing = false;
@@ -76,8 +89,8 @@ public class DrawingPanel extends JPanel {
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		File cursorfile = new File("cursors//Cursor_zonder.png");
 		cursorimage = toolkit.getImage(cursorfile.getAbsolutePath());
-		transimage = toolkit.getImage(new File("cursors//transparent_cursor")
-				.getAbsolutePath());
+		transimage = toolkit.getImage(new File(
+				"cursors//transparent_cursor.png").getAbsolutePath());
 		mousecursor = toolkit.createCustomCursor(cursorimage, mousepoint,
 				"defaultdraw");
 		transcursor = toolkit.createCustomCursor(transimage, transmousepoint,
@@ -85,6 +98,82 @@ public class DrawingPanel extends JPanel {
 		cursorimage = toolkit.getImage(new File("cursors//Cursor_met.png")
 				.getAbsolutePath());
 		setCursor(mousecursor);
+		loadImages();
+	}
+
+	public void loadImages() {
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+		transimage = toolkit.getImage(new File(
+				"cursors//transparent_cursor.png").getAbsolutePath());
+		cursor = toolkit.getImage(new File("cursors//Cursor.png")
+				.getAbsolutePath());
+		cursorMet = toolkit.getImage(new File("cursors//Cursor_met.png")
+				.getAbsolutePath());
+		cursorZonder = toolkit.getImage(new File("cursors//Cursor_zonder.png")
+				.getAbsolutePath());
+		optionFill = toolkit.getImage(new File("cursors//O_fill.png")
+				.getAbsolutePath());
+		optionLine = toolkit.getImage(new File("cursors//O_line.png")
+				.getAbsolutePath());
+		optionBackground = toolkit.getImage(new File(
+				"cursors//O_Background.png").getAbsolutePath());
+		optionDelete = toolkit.getImage(new File("cursors//O_Bin.png")
+				.getAbsolutePath());
+		cursorFill = toolkit.getImage(new File("cursors//Cursor_fill.png")
+				.getAbsolutePath());
+		cursorLine = toolkit.getImage(new File("cursors//Cursor_line.png")
+				.getAbsolutePath());
+		cursorDelete = toolkit.getImage(new File("cursors//Cursor_bin.png")
+				.getAbsolutePath());
+		cursorBackground = toolkit.getImage(new File(
+				"cursors//Cursor_background.png").getAbsolutePath());
+
+	}
+
+	public void rmbDelete(int x, int y) {
+		int sel = rmbSelect(x, y);
+		if (sel >= 0) {
+			shapeslist.remove(sel);
+			if (shapeslist.size() == 0 ) {
+				selected = -1 ;
+			}
+		}
+	}
+
+	public void rmbFill(int x, int y) {
+		int sel = rmbSelect(x, y);
+		if (sel >= 0) {
+			shapeslist.get(sel).isfilled = true ;
+			shapeslist.get(sel).setFillColor(fillcolor);
+		}
+	}
+
+	public void rmbFillLine(int x, int y) {
+		int sel = rmbSelect(x, y);
+		if (sel >= 0) {
+			shapeslist.get(sel).setColor(linecolor);
+		}
+	}
+
+	public void rmbBackground(int x, int y) {
+		int sel = rmbSelect(x, y);
+		if (sel>= 0) {
+			shapeslist.add(0, shapeslist.remove(sel));
+		}
+	}
+
+	public int rmbSelect(int x, int y) {
+		System.out.println("Selecting.." + x + " " + y + ".") ;
+		int index = -1;
+		boolean notfound = false ;
+		for (int i = 0; i < shapeslist.size() && !notfound; i += 1) {
+			if (shapeslist.get(i).contains(x, y)) {
+				MyShape s = shapeslist.remove(i);
+				shapeslist.add(s);
+				index = i ;
+			}
+		}
+		return index;
 	}
 
 	/**
@@ -203,7 +292,80 @@ public class DrawingPanel extends JPanel {
 		mousex = x - 27;
 		mousey = y - 21;
 		isMouseOptions = true;
+		cursorimage = cursorMet;
 		setCursor(transcursor);
+	}
+
+	public void drawOptionCursor() {
+		Toolkit tk = Toolkit.getDefaultToolkit();
+		System.out.println("Arrived in drawOptionsCursor");
+		switch (mousemode) {
+		case 1:
+			Cursor c1 = tk.createCustomCursor(cursorLine, mousepoint,
+					"lineCursor");
+			setCursor(c1);
+			isMouseOptions = false;
+			break;
+		case 2:
+			Cursor c2 = tk.createCustomCursor(cursorFill, mousepoint,
+					"lineCursor");
+			setCursor(c2);
+			isMouseOptions = false;
+			break;
+		case 3:
+			Cursor c3 = tk.createCustomCursor(cursorBackground, mousepoint,
+					"lineCursor");
+			setCursor(c3);
+			isMouseOptions = false;
+			break;
+		case 4:
+			Cursor c4 = tk.createCustomCursor(cursorDelete, mousepoint,
+					"lineCursor");
+			setCursor(c4);
+			isMouseOptions = false;
+			break;
+		default:
+			System.out
+					.println("There is an error in DrawingPanel drawOptionsCursor");
+
+		}
+
+	}
+
+	public void mouseOptionChooser(int x, int y) {
+		Double dist1 = Math.sqrt(Math.pow(x - 111, 2) + Math.pow(y - 60, 2));
+		Double dist2 = Math.sqrt(Math.pow(x - 93, 2) + Math.pow(y - 89, 2));
+		Double dist3 = Math.sqrt(Math.pow(x - 64, 2) + Math.pow(y - 110, 2));
+		Double dist4 = Math.sqrt(Math.pow(x - 28, 2) + Math.pow(y - 115, 2));
+
+		Double shortest = Math.min(Math.min(dist1, dist2),
+				Math.min(dist3, dist4));
+
+		if (Double.compare(shortest, dist1) == 0) {
+			isMouseOptions = true;
+			cursorimage = optionLine;
+			mousemode = 1;
+			mode = 0 ;
+		}
+		else if (Double.compare(shortest, dist2) == 0) {
+			cursorimage = optionFill;
+			mousemode = 2;
+			mode = 0 ;
+		}
+		else if (Double.compare(shortest, dist3) == 0) {
+			cursorimage = optionBackground;
+			mousemode = 3;
+			mode = 0 ;
+		}
+		else if (Double.compare(shortest, dist4) == 0) {
+			cursorimage = optionDelete;
+			mousemode = 4;
+			mode = 0 ;
+		}
+		else {
+			System.out.println("BAAAAAAAAAAAAAAAAAh");
+			mousemode = 0;
+		}
 	}
 
 	/**
@@ -213,6 +375,7 @@ public class DrawingPanel extends JPanel {
 	 * @param y
 	 */
 	public void toolSelect(int x, int y) {
+		System.out.println("toolSelect: " + x + "," + y );
 		boolean notfound = true;
 		for (int i = 0; i < shapeslist.size() && notfound; i += 1) {
 			if (shapeslist.get(i).contains(x, y)

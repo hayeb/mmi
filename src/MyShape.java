@@ -41,10 +41,10 @@ public abstract class MyShape {
 	public int inResizeArea(int x, int y) {
 		// Standard resize area of standard shape: Each of the four corners, a
 		// filled box of 15 * 15.
-		boolean sq1 = (x1 - 10 < x && x1 + 10 > x && y1 - 10 < y && y1 + 10 > y); // Topleft
-		boolean sq2 = (x1 - 10 < x && x1 + 10 > x && y2 - 10 < y && y2 + 10 > y); // bottomleft
-		boolean sq3 = (x2 - 10 < x && x2 + 10 > x && y2 - 10 < y && y2 + 10 > y); // bottomright
-		boolean sq4 = (x2 - 10 < x && x2 + 10 > x && y1 - 10 < y && y1 + 10 > y); // topright
+		boolean sq1 = (x1 - 15 < x && x1 + 15 > x && y1 - 15 < y && y1 + 15 > y); // Topleft
+		boolean sq2 = (x1 - 15 < x && x1 + 15 > x && y2 - 15 < y && y2 + 15 > y); // bottomleft
+		boolean sq3 = (x2 - 15 < x && x2 + 15 > x && y2 - 15 < y && y2 + 15 > y); // bottomright
+		boolean sq4 = (x2 - 15 < x && x2 + 15 > x && y1 - 15 < y && y1 + 15 > y); // topright
 
 		if (sq1) {
 			return 1;
