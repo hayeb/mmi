@@ -35,7 +35,7 @@ public class MyText extends MyShape {
 		super.draw(g);
 		// Zie dopefishh generationShapeFromText
 		g.setFont(new Font("ComicSans", Font.PLAIN, fontsize));
-		g.setColor(Color.RED);
+		g.setColor(basecolor);
 		FontMetrics metrics = g.getFontMetrics(g.getFont());
 		int hgt = metrics.getHeight();
 		int adv = metrics.stringWidth(text);

@@ -29,21 +29,22 @@ public class DrawingPanel extends JPanel {
 	Window window;
 	int mode = 0; // 0=nomode, 1=select, 2=drawrect, 3=drawellipse, 4=drawline,
 					// 5=delete, 6=fill, 7=image, 8=text
-	
-	int corner = 0 ;
+
+	int corner = 0;
 	File[] list;
 	Image cursorimages[] = {};
 
 	public Point mousepoint = new Point(27, 21);
-	public Point transmousepoint = new Point(0,0) ;
-	Cursor transcursor = null ;
-	Cursor mousecursor = null ;
+	public Point transmousepoint = new Point(0, 0);
+	Cursor transcursor = null;
+	Cursor mousecursor = null;
 
 	Image cursorimage = null;
-	Image transimage = null ;
+	Image transimage = null;
 	int selected = -1;
 	int selectedstroke = 3;
-	boolean resizing = false ;
+	boolean resizing = false;
+	boolean moving = false;
 
 	int dx1, dy1, dx2, dy2;
 
@@ -75,11 +76,14 @@ public class DrawingPanel extends JPanel {
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		File cursorfile = new File("cursors//Cursor_zonder.png");
 		cursorimage = toolkit.getImage(cursorfile.getAbsolutePath());
-		transimage = toolkit.getImage(new File("cursors//transparent_cursor").getAbsolutePath()) ;
-		 mousecursor = toolkit.createCustomCursor(cursorimage, mousepoint,
+		transimage = toolkit.getImage(new File("cursors//transparent_cursor")
+				.getAbsolutePath());
+		mousecursor = toolkit.createCustomCursor(cursorimage, mousepoint,
 				"defaultdraw");
-		transcursor = toolkit.createCustomCursor(transimage, transmousepoint, "transcursor");
-		cursorimage = toolkit.getImage(new File("cursors//Cursor_met.png").getAbsolutePath()) ;
+		transcursor = toolkit.createCustomCursor(transimage, transmousepoint,
+				"transcursor");
+		cursorimage = toolkit.getImage(new File("cursors//Cursor_met.png")
+				.getAbsolutePath());
 		setCursor(mousecursor);
 	}
 
@@ -180,13 +184,13 @@ public class DrawingPanel extends JPanel {
 		}
 		setCursor(mousecursor);
 	}
-	
+
 	public void removeMouseCursor() {
-		mousex = -1 ;
-		mousey = -1 ;
-		isMouseOptions = false ;
+		mousex = -1;
+		mousey = -1;
+		isMouseOptions = false;
 		setCursor(mousecursor);
-		}
+	}
 
 	/**
 	 * Draws the current mouse cursor image at x, y and makes the actual cursor
@@ -333,8 +337,7 @@ public class DrawingPanel extends JPanel {
 			repaint();
 			break;
 		default:
-			System.err
-					.println("There is an error in DrawingPanel reShape()");
+			System.err.println("There is an error in DrawingPanel reShape()");
 		}
 
 	}
@@ -374,12 +377,11 @@ public class DrawingPanel extends JPanel {
 	public void moveShape(int x, int y) {
 		MyShape selectedshape = shapeslist.get(selected);
 		// System.out.println("Orientation: " + selectedshape.orientation);
-		if (selectedshape.contains(x, y)) {
-			selectedshape.setX1(x - dx1);
-			selectedshape.setY1(y - dy1);
-			selectedshape.setX2(x + dx2);
-			selectedshape.setY2(y + dy2);
-		}
+
+		selectedshape.setX1(x - dx1);
+		selectedshape.setY1(y - dy1);
+		selectedshape.setX2(x + dx2);
+		selectedshape.setY2(y + dy2);
 		repaint();
 	}
 

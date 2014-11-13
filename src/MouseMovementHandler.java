@@ -24,7 +24,7 @@ public class MouseMovementHandler implements MouseMotionListener {
 				if (DrawPanel.selected >= 0) {
 					// Move the currently selected object
 					int corner = DrawPanel.getSelected().inResizeArea(x, y);
-					if (DrawPanel.selected >= 0 && corner == 0 && !DrawPanel.resizing ) {
+					if (DrawPanel.selected >= 0 && !DrawPanel.resizing ) {
 						System.out.println("Moving found shape.. "
 								+ DrawPanel.selected);
 						DrawPanel.moveShape(x, y);
