@@ -29,17 +29,18 @@ public class MouseButtonHandler implements MouseListener {
 				switch (DrawPanel.mode) {
 				case 1:
 					break;
-				case 6:
+				/*case 6:
 					System.out.println("Filling object.. ");
 					break;
+				*/
 				case 8:
 					DrawPanel.insertText(x, y);
 					DrawPanel.mode = 1;
 					break;
 				default:
-					DrawPanel.toolSelect(x, y);
-
+					/*DrawPanel.toolSelect(x, y);
 					break;
+					*/
 				}
 			}
 			else {
@@ -122,8 +123,7 @@ public class MouseButtonHandler implements MouseListener {
 				DrawPanel.drawLine(x, y);
 				break;
 			default:
-				break;
-
+				
 			}
 
 		}
@@ -132,7 +132,7 @@ public class MouseButtonHandler implements MouseListener {
 			System.out.println("Mousemode in mousePressed (2)" + DrawPanel.mousemode) ;
 			if (!drawn) {
 				DrawPanel.drawMouseCursor(x, y);
-				// MAke the cursor invisible
+				// Make the cursor invisible
 				DrawPanel.mode = 1;
 				DrawPanel.mousemode = 0 ;
 				DrawPanel.repaint();

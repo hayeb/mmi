@@ -8,11 +8,11 @@ public class ButtonHandler implements ActionListener {
 	/**
 	 * The handler acts upon the DrawingPanel.
 	 * 
-	 * @param rp
+	 * @param dp
 	 *            : The DrawingPanel
 	 */
-	public ButtonHandler(DrawingPanel rp) {
-		drawpanel = rp;
+	public ButtonHandler(DrawingPanel dp) {
+		drawpanel = dp;
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -26,7 +26,6 @@ public class ButtonHandler implements ActionListener {
 		switch (cmd) {
 		case "No Mode":
 			this.drawpanel.mode = 0;
-			
 			break;
 		case "Select":
 			this.drawpanel.mode = 1;
@@ -40,7 +39,7 @@ public class ButtonHandler implements ActionListener {
 		case "Draw Line":
 			this.drawpanel.mode = 4;
 			break;
-		case "Delete":
+		/*case "Delete":
 			drawpanel.mode = 5;
 			drawpanel.deleteSelectedShape();
 			break;
@@ -48,6 +47,7 @@ public class ButtonHandler implements ActionListener {
 			drawpanel.mode = 6;
 			drawpanel.fillSelectedShape();
 			break;
+		*/
 		case "Import Image":
 			drawpanel.mode = 7;
 			drawpanel.importImage();

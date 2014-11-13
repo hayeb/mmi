@@ -19,11 +19,7 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class DrawingPanel extends JPanel {
-	/*
-	 * TODO: Add move to background function/button (first in list) TODO:
-	 * Possibly: Draw fixed shapes sizes/angels etc. TODO: Multiselect
-	 */
-
+	
 	int width;
 	int height;
 	Window window;
